@@ -1,6 +1,7 @@
 :root {
   --brand: #ab0b0b;
   --text: #2d2d2d;
+  --text-secondary: rgba(45, 45, 45, 0.72);
   --muted: #f6f6f6;
   --white: #ffffff;
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -69,9 +70,10 @@ a:hover {
 }
 
 .brand__logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .nav__toggle {
@@ -141,29 +143,20 @@ a:hover {
 .logo-tile {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 10px 14px;
-  border-radius: 14px;
-  backdrop-filter: blur(8px);
-  margin-bottom: 20px;
-}
-
-.logo-tile__mark {
-  background: var(--brand);
-  color: var(--white);
-  font-weight: 700;
-  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 12px 14px;
   border-radius: 12px;
-  text-transform: lowercase;
-  letter-spacing: 0.03em;
+  backdrop-filter: blur(10px);
+  margin-bottom: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 }
 
-.logo-tile__name {
-  font-weight: 600;
-  color: var(--white);
-  letter-spacing: 0.04em;
+.logo-tile__image {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 h1,
@@ -294,14 +287,24 @@ p {
 }
 
 .benefit__icon {
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: rgba(171, 11, 11, 0.08);
-  font-size: 24px;
-  margin-bottom: 12px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(171, 11, 11, 0.04), rgba(171, 11, 11, 0.08));
+  border: 1px solid rgba(171, 11, 11, 0.3);
+  box-shadow: 0 12px 32px rgba(171, 11, 11, 0.12);
+  margin-bottom: 14px;
+  padding: 10px;
+}
+
+.benefit__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--brand);
+  stroke-width: 2.6;
+  fill: none;
 }
 
 .categories {
@@ -387,6 +390,145 @@ p {
   flex-wrap: wrap;
 }
 
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.review {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.06);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.review:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.1);
+}
+
+.review__link {
+  display: grid;
+  gap: 12px;
+  color: inherit;
+}
+
+.review__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.review__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(171, 11, 11, 0.2);
+}
+
+.review__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.review__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(171, 11, 11, 0.08);
+  color: var(--brand);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+}
+
+.review__rating {
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--brand);
+}
+
+.review h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.review p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.review time {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.review__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.review__cta {
+  font-weight: 700;
+  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reviews--static {
+  margin-top: 18px;
+}
+
+.delivery__logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.delivery__logo-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(171, 11, 11, 0.12);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.delivery__logo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.08);
+  border-color: var(--brand);
+}
+
+.delivery__logo-card svg {
+  width: 48px;
+  height: 48px;
+}
+
+.delivery__logo-label {
+  font-weight: 700;
+}
+
 .footer {
   background: #0f0f0f;
   color: rgba(255, 255, 255, 0.86);
@@ -419,6 +561,15 @@ p {
   margin-bottom: 8px;
 }
 
+.socials a {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.socials a:hover {
+  color: #f1d59f;
+}
+
 .footer__links a {
   color: rgba(255, 255, 255, 0.82);
 }
@@ -430,8 +581,8 @@ p {
 }
 
 .brand--footer .brand__logo {
-  background: #fff;
-  padding: 6px;
+  background: transparent;
+  padding: 0;
 }
 
 [data-animate] {
