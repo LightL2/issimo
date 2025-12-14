@@ -491,6 +491,17 @@ p {
   gap: 6px;
 }
 
+.review--notice {
+  background: rgba(171, 11, 11, 0.04);
+  border: 1px dashed rgba(171, 11, 11, 0.4);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.review--notice p {
+  margin: 0;
+}
+
 .reviews--static {
   margin-top: 18px;
 }

@@ -60,76 +60,116 @@ anchors.forEach((anchor) => {
 
 const reviewsList = document.getElementById('reviews-list');
 
-const reviewsData = [
-  {
-    source: 'Google',
-    rating: 5,
-    author: 'Алина',
-    text: 'Лучшее место для завтраков в центре. Ароматный кофе и идеальные круассаны!',
-    date: '2024-03-12',
-    displayDate: '12 марта 2024',
-    photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
-    url: 'https://maps.google.com/?q=Caffee%27issimo+Istiqbol+47+Tashkent',
-  },
-  {
-    source: 'Google',
-    rating: 4.9,
-    author: 'Сергей',
-    text: 'Эспрессо Illy и паста карбонара — то, ради чего хочется вернуться. Отличный сервис.',
-    date: '2024-04-02',
-    displayDate: '2 апреля 2024',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80&fm=webp',
-    url: 'https://maps.google.com/?q=Caffee%27issimo+Amir+Temur+95A+Tashkent',
-  },
-  {
-    source: 'Яндекс.Карты',
-    rating: 4.8,
-    author: 'Давид',
-    text: 'Уютный интерьер, внимательные бариста и десерты уровня Италии.',
-    date: '2024-02-28',
-    displayDate: '28 февраля 2024',
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80&fm=webp',
-    url: 'https://yandex.uz/maps/?text=Caffee%27issimo%20Amir%20Temur%2095A%20%D0%A2%D0%B0%D1%88%D0%BA%D0%B5%D0%BD%D1%82',
-  },
-  {
-    source: 'Яндекс.Карты',
-    rating: 4.7,
-    author: 'Малика',
-    text: 'Любимый формат семейных ужинов: спокойная музыка, дровяная пицца и детское меню.',
-    date: '2024-01-18',
-    displayDate: '18 января 2024',
-    photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
-    url: 'https://yandex.uz/maps/?text=Caffee%27issimo%20Yunusabad%2084%20%D0%A2%D0%B0%D1%88%D0%BA%D0%B5%D0%BD%D1%82',
-  },
-];
+const serpApiKey = reviewsList?.dataset?.serpapiKey;
 
-if (reviewsList) {
-  reviewsData.forEach((review) => {
-    const article = document.createElement('article');
-    article.className = 'review';
+const renderReview = (review) => {
+  const article = document.createElement('article');
+  article.className = 'review';
 
-    const ratingLabel = `Оценка ${review.rating.toFixed(1)} из 5`;
+  const ratingLabel = `Оценка ${review.rating.toFixed(1)} из 5`;
 
-    article.innerHTML = `
-      <a class="review__link" href="${review.url}" target="_blank" rel="noopener">
-        <div class="review__header">
-          <img class="review__avatar" src="${review.photo}" alt="Фото ${review.author}" loading="lazy" />
-          <div>
-            <div class="review__meta">
-              <span class="review__source">${review.source}</span>
-              <span class="review__rating" aria-label="${ratingLabel}">★ ${review.rating.toFixed(1)}</span>
-            </div>
-            <h3>${review.author}</h3>
+  article.innerHTML = `
+    <a class="review__link" href="${review.url}" target="_blank" rel="noopener">
+      <div class="review__header">
+        <img class="review__avatar" src="${review.photo}" alt="Фото ${review.author}" loading="lazy" />
+        <div>
+          <div class="review__meta">
+            <span class="review__source">${review.source}</span>
+            <span class="review__rating" aria-label="${ratingLabel}">★ ${review.rating.toFixed(1)}</span>
           </div>
+          <h3>${review.author}</h3>
         </div>
-        <p>${review.text}</p>
-        <div class="review__footer">
-          <time datetime="${review.date}">${review.displayDate}</time>
-          <span class="review__cta">Читать отзыв →</span>
-        </div>
-      </a>
-    `;
+      </div>
+      <p>${review.text}</p>
+      <div class="review__footer">
+        <time datetime="${review.date}">${review.displayDate}</time>
+        <span class="review__cta">Читать отзыв →</span>
+      </div>
+    </a>
+  `;
 
-    reviewsList.appendChild(article);
-  });
-}
+  reviewsList.appendChild(article);
+};
+
+const renderNotice = (message) => {
+  const article = document.createElement('article');
+  article.className = 'review review--notice';
+  article.innerHTML = `<p>${message}</p>`;
+  reviewsList.appendChild(article);
+};
+
+const formatDate = (dateString) => {
+  const formatter = new Intl.DateTimeFormat('ru', { day: 'numeric', month: 'long', year: 'numeric' });
+  return formatter.format(new Date(dateString));
+};
+
+const parseReviewPayload = (payload) => ({
+  source: payload.source || 'Google',
+  rating: payload.rating || 0,
+  author: payload.author_name || 'Гость',
+  text: payload.text || '',
+  date: payload.time ? new Date(payload.time * 1000).toISOString().slice(0, 10) : '',
+  displayDate: payload.time ? formatDate(payload.time * 1000) : '',
+  photo:
+    payload.profile_photo_url ||
+    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
+  url: payload.link || payload.review_url || payload.url || '#',
+});
+
+const loadReviews = async () => {
+  if (!reviewsList) return;
+
+  reviewsList.innerHTML = '';
+
+  if (!serpApiKey) {
+    renderNotice(
+      'Для загрузки живых отзывов добавьте ключ SerpAPI в атрибут data-serpapi-key или перейдите по ссылкам на Google/Яндекс.'
+    );
+    return;
+  }
+
+  try {
+    const searchUrl = new URL('https://serpapi.com/search.json');
+    searchUrl.search = new URLSearchParams({
+      engine: 'google_maps',
+      q: 'Caffee\'issimo Tashkent',
+      hl: 'ru',
+      api_key: serpApiKey,
+    }).toString();
+
+    const searchResponse = await fetch(searchUrl.toString());
+    const searchJson = await searchResponse.json();
+    const dataId = searchJson?.local_results?.[0]?.data_id;
+
+    if (!dataId) {
+      renderNotice('Не удалось найти карточку Google Maps. Проверьте корректность ключа и названия места.');
+      return;
+    }
+
+    const reviewsUrl = new URL('https://serpapi.com/search.json');
+    reviewsUrl.search = new URLSearchParams({
+      engine: 'google_maps_reviews',
+      hl: 'ru',
+      data_id: dataId,
+      api_key: serpApiKey,
+    }).toString();
+
+    const reviewsResponse = await fetch(reviewsUrl.toString());
+    const reviewsJson = await reviewsResponse.json();
+    const reviews = reviewsJson?.reviews || [];
+
+    if (!reviews.length) {
+      renderNotice('К сожалению, отзывы не найдены.');
+      return;
+    }
+
+    reviews.slice(0, 6).forEach((review) => {
+      renderReview(parseReviewPayload(review));
+    });
+  } catch (error) {
+    console.error('Reviews load error', error);
+    renderNotice('Не удалось загрузить отзывы. Попробуйте обновить страницу позже.');
+  }
+};
+
+loadReviews();
