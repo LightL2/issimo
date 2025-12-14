@@ -58,120 +58,75 @@ anchors.forEach((anchor) => {
   });
 });
 
-const reviewsList = document.getElementById('reviews-list');
+const instagramFeed = document.getElementById('instagram-feed');
+const instagramProfile = 'https://www.instagram.com/caffeeissimo/';
+const instagramProxy = 'https://r.jina.ai/https://www.instagram.com/caffeeissimo/';
 
-const serperApiKey = reviewsList?.dataset?.serperKey;
+const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-const renderReview = (review) => {
-  const article = document.createElement('article');
-  article.className = 'review';
-
-  const ratingLabel = `Оценка ${review.rating.toFixed(1)} из 5`;
-
-  article.innerHTML = `
-    <a class="review__link" href="${review.url}" target="_blank" rel="noopener">
-      <div class="review__header">
-        <img class="review__avatar" src="${review.photo}" alt="Фото ${review.author}" loading="lazy" />
-        <div>
-          <div class="review__meta">
-            <span class="review__source">${review.source}</span>
-            <span class="review__rating" aria-label="${ratingLabel}">★ ${review.rating.toFixed(1)}</span>
-          </div>
-          <h3>${review.author}</h3>
-        </div>
+const renderInstagramCard = (item) => {
+  const card = document.createElement('article');
+  card.className = 'insta-card';
+  card.innerHTML = `
+    <a class="insta-card__link" href="${item.link}" target="_blank" rel="noopener">
+      <div class="insta-card__media">
+        <img src="${item.image}" alt="Пост Caffee’issimo в Instagram" loading="lazy" />
       </div>
-      <p>${review.text}</p>
-      <div class="review__footer">
-        <time datetime="${review.date}">${review.displayDate}</time>
-        <span class="review__cta">Читать отзыв →</span>
+      <div class="insta-card__body">
+        <p>${item.caption || 'Свежий момент из жизни Caffee’issimo.'}</p>
+        <span class="insta-card__cta">Открыть пост →</span>
       </div>
     </a>
   `;
-
-  reviewsList.appendChild(article);
+  instagramFeed.appendChild(card);
 };
 
-const renderNotice = (message) => {
-  const article = document.createElement('article');
-  article.className = 'review review--notice';
-  article.innerHTML = `<p>${message}</p>`;
-  reviewsList.appendChild(article);
+const renderInstagramNotice = (message) => {
+  const card = document.createElement('article');
+  card.className = 'insta-card insta-card--notice';
+  card.innerHTML = `
+    <div class="insta-card__body">
+      <p>${message}</p>
+      <a class="link" href="${instagramProfile}" target="_blank" rel="noopener">Перейти в Instagram</a>
+    </div>
+  `;
+  instagramFeed.appendChild(card);
 };
 
-const formatDate = (dateString) => {
-  const formatter = new Intl.DateTimeFormat('ru', { day: 'numeric', month: 'long', year: 'numeric' });
-  return formatter.format(new Date(dateString));
-};
+const loadInstagram = async () => {
+  if (!instagramFeed) return;
 
-const parseReviewPayload = (payload) => {
-  const timeValue = payload.time
-    ? payload.time * 1000
-    : payload?.date?.value
-    ? Number(payload.date.value) * 1000
-    : Date.now();
-
-  return {
-    source: payload.source || payload.provider || 'Google',
-    rating: payload.rating || payload.stars || 0,
-    author: payload.author_name || payload.user || payload.reviewer || 'Гость',
-    text: payload.text || payload.snippet || payload.comment || '',
-    date: new Date(timeValue).toISOString().slice(0, 10),
-    displayDate: formatDate(timeValue),
-    photo:
-      payload.profile_photo_url ||
-      payload.avatar ||
-      payload.photo ||
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
-    url: payload.link || payload.review_url || payload.url || payload.sourceUrl || '#',
-  };
-};
-
-const loadReviews = async () => {
-  if (!reviewsList) return;
-
-  reviewsList.innerHTML = '';
-
-  if (!serperApiKey) {
-    renderNotice(
-      'Для загрузки живых отзывов добавьте бесплатный ключ Serper.dev в атрибут data-serper-key или воспользуйтесь ссылками в блоке без JavaScript.'
-    );
-    return;
-  }
+  instagramFeed.innerHTML = '';
 
   try {
-    const response = await fetch('https://google.serper.dev/places', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-KEY': serperApiKey,
-      },
-      body: JSON.stringify({
-        q: "Caffee'issimo Tashkent",
-        gl: 'uz',
-        hl: 'ru',
-      }),
-    });
+    const response = await fetch(instagramProxy);
+    if (!response.ok) throw new Error('Failed to fetch Instagram feed');
 
-    if (!response.ok) {
-      renderNotice('Не удалось получить данные об отзывах. Проверьте ключ или попробуйте позже.');
+    const payload = await response.text();
+    const imageMatches = [...payload.matchAll(/"display_url":"([^"]+)"/g)].map((m) => m[1].replace(/\u0026/g, '&'));
+    const codeMatches = [...payload.matchAll(/"shortcode":"([^"]+)"/g)].map((m) => m[1]);
+
+    const items = [];
+    const seen = new Set();
+    for (let i = 0; i < Math.min(imageMatches.length, codeMatches.length); i += 1) {
+      const link = `https://www.instagram.com/p/${codeMatches[i]}/`;
+      if (seen.has(link)) continue;
+      seen.add(link);
+      items.push({ image: imageMatches[i], link });
+    }
+
+    if (!items.length) {
+      renderInstagramNotice('Не удалось прочитать ленту. Откройте профиль, чтобы увидеть посты.');
       return;
     }
 
-    const json = await response.json();
-    const reviews = json?.reviews || json?.placeReviews || [];
-
-    if (!reviews.length) {
-      renderNotice('К сожалению, отзывы не найдены.');
-      return;
-    }
-
-    reviews.slice(0, 6).forEach((review) => {
-      renderReview(parseReviewPayload(review));
-    });
+    shuffle(items)
+      .slice(0, 6)
+      .forEach((item) => renderInstagramCard(item));
   } catch (error) {
-    console.error('Reviews load error', error);
-    renderNotice('Не удалось загрузить отзывы. Попробуйте обновить страницу позже.');
+    console.error('Instagram load error', error);
+    renderInstagramNotice('Лента Instagram временно недоступна. Попробуйте обновить страницу или открыть профиль.');
   }
 };
 
-loadReviews();
+loadInstagram();
