@@ -19,8 +19,9 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <div class="brand" aria-label="Caffee’issimo">
+      <div class="brand">
         <img src="assets/logo.svg" alt="Логотип Caffee’issimo" class="brand__logo" />
+        <span class="brand__name">Caffee’issimo</span>
       </div>
       <nav class="nav" aria-label="Основная навигация">
         <button class="nav__toggle" aria-expanded="false" aria-controls="nav-list">Меню</button>
@@ -29,7 +30,6 @@
           <li><a href="#benefits">Преимущества</a></li>
           <li><a href="#cuisine">Итальянская кухня</a></li>
           <li><a href="#coffee">Кофе Illy</a></li>
-          <li><a href="#reviews">Отзывы</a></li>
           <li><a href="#locations">Филиалы</a></li>
           <li><a href="#delivery">Доставка</a></li>
         </ul>
@@ -45,8 +45,9 @@
         <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80" alt="Интерьер итальянского кафе" class="hero__bg" loading="lazy" />
       </picture>
       <div class="container hero__content" data-animate="fade-up">
-        <div class="logo-tile" aria-hidden="true">
-          <img src="assets/logo.svg" alt="" class="logo-tile__image" />
+        <div class="logo-tile">
+          <div class="logo-tile__mark">illy</div>
+          <span class="logo-tile__name">Caffee’issimo</span>
         </div>
         <h1>Итальянское кафе и ресторан в Ташкенте</h1>
         <p>Современная сеть кафе с атмосферой итальянского города, авторскими блюдами и кофейной культурой Illy.</p>
@@ -79,70 +80,22 @@
         </div>
         <div class="benefits">
           <article class="benefit" data-animate="fade-up">
-            <div class="benefit__icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
-                <defs>
-                  <linearGradient id="plateGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#fdf6e8" />
-                    <stop offset="100%" stop-color="#e7d3a6" />
-                  </linearGradient>
-                </defs>
-                <circle cx="32" cy="32" r="26" fill="url(#plateGradient)" stroke="#c7a462" stroke-width="2" />
-                <path d="M20 32h24M22 28c8 8 12-8 20 0" stroke="#ab0b0b" stroke-width="3" stroke-linecap="round" fill="none" />
-                <path d="M20 36c4-2 8 2 12 0s8-2 12 0" stroke="#ab0b0b" stroke-width="3" stroke-linecap="round" fill="none" />
-              </svg>
-            </div>
+            <div class="benefit__icon">🍝</div>
             <h3>Итальянская кухня</h3>
             <p>Классические рецепты пасты, пиццы и антипасти, приготовленные из свежих ингредиентов.</p>
           </article>
           <article class="benefit" data-animate="fade-up" data-delay="60">
-            <div class="benefit__icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
-                <defs>
-                  <linearGradient id="cupGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#fdf6e8" />
-                    <stop offset="100%" stop-color="#e7d3a6" />
-                  </linearGradient>
-                </defs>
-                <path d="M14 22h30v18a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10V22Z" fill="url(#cupGradient)" stroke="#c7a462" stroke-width="2" />
-                <path d="M44 26h6a6 6 0 0 1 0 12h-6" fill="none" stroke="#ab0b0b" stroke-width="3" stroke-linecap="round" />
-                <path d="M26 18c-2-2-2-4 0-6M34 18c-2-2-2-4 0-6" stroke="#ab0b0b" stroke-width="3" stroke-linecap="round" />
-              </svg>
-            </div>
+            <div class="benefit__icon">☕</div>
             <h3>Кофе Illy</h3>
             <p>Эталон итальянского эспрессо с ярким ароматом и балансом вкуса, обжарка напрямую из Триеста.</p>
           </article>
           <article class="benefit" data-animate="fade-up" data-delay="120">
-            <div class="benefit__icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
-                <defs>
-                  <linearGradient id="pinGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#fdf6e8" />
-                    <stop offset="100%" stop-color="#e7d3a6" />
-                  </linearGradient>
-                </defs>
-                <path d="M32 54s18-18 18-30a18 18 0 1 0-36 0c0 12 18 30 18 30Z" fill="url(#pinGradient)" stroke="#c7a462" stroke-width="2" />
-                <circle cx="32" cy="24" r="7" fill="none" stroke="#ab0b0b" stroke-width="3" />
-              </svg>
-            </div>
+            <div class="benefit__icon">📍</div>
             <h3>Несколько филиалов</h3>
             <p>Мы расположены в популярных районах Ташкента, чтобы быть ближе к гостям в течение дня.</p>
           </article>
           <article class="benefit" data-animate="fade-up" data-delay="180">
-            <div class="benefit__icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
-                <defs>
-                  <linearGradient id="deliveryGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#fdf6e8" />
-                    <stop offset="100%" stop-color="#e7d3a6" />
-                  </linearGradient>
-                </defs>
-                <rect x="10" y="22" width="30" height="22" rx="6" fill="url(#deliveryGradient)" stroke="#c7a462" stroke-width="2" />
-                <path d="M40 30h10l4 6v8h-8" fill="none" stroke="#ab0b0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                <circle cx="22" cy="48" r="5" fill="none" stroke="#ab0b0b" stroke-width="3" />
-                <circle cx="46" cy="48" r="5" fill="none" stroke="#ab0b0b" stroke-width="3" />
-              </svg>
-            </div>
+            <div class="benefit__icon">🚴</div>
             <h3>Доставка через агрегаторы</h3>
             <p>Заказывайте любимые блюда через удобные сервисы доставки без лишних кликов.</p>
           </article>
@@ -212,39 +165,6 @@
       </div>
     </section>
 
-    <section class="section" id="reviews">
-      <div class="container">
-        <div class="section__header" data-animate="fade-up">
-          <span class="eyebrow">Отзывы гостей</span>
-          <h2>Что говорят о Caffee’issimo</h2>
-          <p>Актуальные оценки и комментарии из Google и Яндекс.Карт — в едином премиальном стиле.</p>
-        </div>
-        <div class="reviews" id="reviews-list" aria-live="polite" data-animate="fade-up"></div>
-        <noscript>
-          <div class="reviews reviews--static">
-            <article class="review">
-              <div class="review__meta">
-                <span class="review__source">Google</span>
-                <span class="review__rating" aria-label="Оценка 5 из 5">★★★★★</span>
-              </div>
-              <h3>Алина</h3>
-              <p>Лучшее место для завтраков в центре. Ароматный кофе и идеальные круассаны!</p>
-              <time datetime="2024-03-12">12 марта 2024</time>
-            </article>
-            <article class="review">
-              <div class="review__meta">
-                <span class="review__source">Яндекс.Карты</span>
-                <span class="review__rating" aria-label="Оценка 4.8 из 5">★★★★☆</span>
-              </div>
-              <h3>Давид</h3>
-              <p>Уютный интерьер, вежливый персонал и паста как в Италии. Вернусь снова.</p>
-              <time datetime="2024-02-28">28 февраля 2024</time>
-            </article>
-          </div>
-        </noscript>
-      </div>
-    </section>
-
     <section class="section" id="locations">
       <div class="container">
         <div class="section__header" data-animate="fade-up">
@@ -254,28 +174,19 @@
         </div>
         <div class="locations">
           <article class="location" data-animate="fade-up">
-            <h3>📍 Яшнабад</h3>
-            <p>ул. Истикбол, 47, ЖК Infinity</p>
-            <p><a class="link" href="tel:+998555140808">+998 55 514 08 08</a></p>
-            <a href="https://www.google.com/maps/search/?api=1&query=Istiqbol+47+Infinity+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+            <h3>Центр города</h3>
+            <p>ул. Амир Темур, 25 — просторный зал, летняя веранда.</p>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="link">Построить маршрут</a>
           </article>
           <article class="location" data-animate="fade-up" data-delay="80">
-            <h3>📍 Проспект Амира Тимура</h3>
-            <p>проспект Амира Тимура, 95А (24/7)</p>
-            <p><a class="link" href="tel:+998712050152">+998 71 205 01 52</a></p>
-            <a href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+            <h3>Южный квартал</h3>
+            <p>пр-т Буюк Ипак Йули, 12 — уютные столики и быстрый ланч.</p>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="link">Построить маршрут</a>
           </article>
           <article class="location" data-animate="fade-up" data-delay="160">
-            <h3>📍 Юнусабад</h3>
-            <p>махалля Астробод, 4 квартал, д.84</p>
-            <p><a class="link" href="tel:+998951194444">+998 95 119 44 44</a></p>
-            <a href="https://www.google.com/maps/search/?api=1&query=Astrobod+4+quarter+84+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
-          </article>
-          <article class="location" data-animate="fade-up" data-delay="240">
-            <h3>📍 Алмазар</h3>
-            <p>ул. Талабалар, 52</p>
-            <p><a class="link" href="tel:+998712076300">+998 71 207 63 00</a></p>
-            <a href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+            <h3>Деловой район</h3>
+            <p>бульвар Мустакиллик, 8 — встречи с коллегами и формальные переговоры.</p>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="link">Построить маршрут</a>
           </article>
         </div>
       </div>
@@ -309,6 +220,7 @@
       <div class="footer__brand">
         <div class="brand brand--footer">
           <img src="assets/logo.svg" alt="Логотип Caffee’issimo" class="brand__logo" />
+          <span class="brand__name">Caffee’issimo</span>
         </div>
         <p>Современные итальянские кафе в Ташкенте. Кофе Illy, яркие вкусы и комфортная атмосфера.</p>
         <p class="footer__copy">© 2024 Caffee’issimo</p>
@@ -316,25 +228,17 @@
       <div class="footer__links">
         <h3>Адреса</h3>
         <ul>
-          <li><a href="https://www.google.com/maps/search/?api=1&query=Istiqbol+47+Infinity+Tashkent" target="_blank" rel="noopener">Яшнабад, ул. Истикбол, 47, ЖК Infinity</a></li>
-          <li><a href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent" target="_blank" rel="noopener">проспект Амира Тимура, 95А</a></li>
-          <li><a href="https://www.google.com/maps/search/?api=1&query=Astrobod+4+quarter+84+Tashkent" target="_blank" rel="noopener">Юнусабад, махалля Астробод, 4 квартал, д.84</a></li>
-          <li><a href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent" target="_blank" rel="noopener">Алмазар, ул. Талабалар, 52</a></li>
+          <li><a href="https://maps.google.com" target="_blank" rel="noopener">ул. Амир Темур, 25</a></li>
+          <li><a href="https://maps.google.com" target="_blank" rel="noopener">пр-т Буюк Ипак Йули, 12</a></li>
+          <li><a href="https://maps.google.com" target="_blank" rel="noopener">бульвар Мустакиллик, 8</a></li>
         </ul>
       </div>
       <div class="footer__links">
         <h3>Контакты</h3>
         <ul>
-          <li><a href="tel:+998712050152">+998 71 205 01 52</a></li>
+          <li><a href="tel:+998901234567">+998 90 123-45-67</a></li>
           <li><a href="mailto:hello@caffeeissimo.uz">hello@caffeeissimo.uz</a></li>
           <li><a href="#delivery">Доставка</a></li>
-        </ul>
-      </div>
-      <div class="footer__links">
-        <h3>Соцсети</h3>
-        <ul class="socials">
-          <li><a href="https://www.instagram.com/caffeeissimo/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="https://www.facebook.com/CaffeeIssimo/?locale=ru_RU" target="_blank" rel="noopener">Facebook</a></li>
         </ul>
       </div>
     </div>
