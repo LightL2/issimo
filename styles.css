@@ -255,7 +255,7 @@ p {
 }
 
 .section__media img {
-  width: 100%;
+  width: 85%;
   height: 100%;
   object-fit: cover;
   box-shadow: var(--shadow);
