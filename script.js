@@ -60,8 +60,10 @@ anchors.forEach((anchor) => {
 
 const instagramFeed = document.getElementById('instagram-feed');
 const instagramProfile = 'https://www.instagram.com/caffeeissimo/';
-// Используем JSON-эндпоинт Instagram через r.jina.ai для обхода CORS и большей стабильности
-const instagramProxy = 'https://r.jina.ai/http://www.instagram.com/caffeeissimo/?__a=1&__d=dis';
+// Используем публичный web_profile_info JSON-эндпоинт Instagram через r.jina.ai
+// Он выдаёт только публичные данные и не требует токена
+const instagramProxy =
+  'https://r.jina.ai/http://www.instagram.com/api/v1/users/web_profile_info/?username=caffeeissimo';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -105,14 +107,18 @@ const loadInstagram = async () => {
 
     const payload = await response.text();
 
-    // Попытка извлечь JSON и получить медиа из sections с корректным fallback к regex
+    // Попытка извлечь JSON и получить медиа из профиля с корректным fallback к regex
     let items = [];
 
     try {
       const jsonStart = payload.indexOf('{');
       const jsonString = jsonStart >= 0 ? payload.slice(jsonStart) : '';
       const data = jsonString ? JSON.parse(jsonString) : null;
-      const edges = data?.graphql?.user?.edge_owner_to_timeline_media?.edges || [];
+
+      const edges =
+        data?.data?.user?.edge_owner_to_timeline_media?.edges ||
+        data?.graphql?.user?.edge_owner_to_timeline_media?.edges ||
+        [];
 
       items = edges
         .map((edge) => ({
