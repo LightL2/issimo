@@ -60,7 +60,8 @@ anchors.forEach((anchor) => {
 
 const instagramFeed = document.getElementById('instagram-feed');
 const instagramProfile = 'https://www.instagram.com/caffeeissimo/';
-const instagramProxy = 'https://r.jina.ai/https://www.instagram.com/caffeeissimo/';
+// Используем JSON-эндпоинт Instagram через r.jina.ai для обхода CORS и большей стабильности
+const instagramProxy = 'https://r.jina.ai/http://www.instagram.com/caffeeissimo/?__a=1&__d=dis';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -99,24 +100,46 @@ const loadInstagram = async () => {
   instagramFeed.innerHTML = '';
 
   try {
-    const response = await fetch(instagramProxy);
+    const response = await fetch(instagramProxy, { cache: 'no-store' });
     if (!response.ok) throw new Error('Failed to fetch Instagram feed');
 
     const payload = await response.text();
-    const imageMatches = [...payload.matchAll(/"display_url":"([^"]+)"/g)].map((m) => m[1].replace(/\u0026/g, '&'));
-    const codeMatches = [...payload.matchAll(/"shortcode":"([^"]+)"/g)].map((m) => m[1]);
 
-    const items = [];
-    const seen = new Set();
-    for (let i = 0; i < Math.min(imageMatches.length, codeMatches.length); i += 1) {
-      const link = `https://www.instagram.com/p/${codeMatches[i]}/`;
-      if (seen.has(link)) continue;
-      seen.add(link);
-      items.push({ image: imageMatches[i], link });
+    // Попытка извлечь JSON и получить медиа из sections с корректным fallback к regex
+    let items = [];
+
+    try {
+      const jsonStart = payload.indexOf('{');
+      const jsonString = jsonStart >= 0 ? payload.slice(jsonStart) : '';
+      const data = jsonString ? JSON.parse(jsonString) : null;
+      const edges = data?.graphql?.user?.edge_owner_to_timeline_media?.edges || [];
+
+      items = edges
+        .map((edge) => ({
+          image: edge?.node?.display_url,
+          link: edge?.node?.shortcode ? `https://www.instagram.com/p/${edge.node.shortcode}/` : null,
+          caption: edge?.node?.edge_media_to_caption?.edges?.[0]?.node?.text || '',
+        }))
+        .filter((item) => item.image && item.link);
+    } catch (error) {
+      console.warn('Instagram JSON parse fallback', error);
     }
 
     if (!items.length) {
-      renderInstagramNotice('Не удалось прочитать ленту. Откройте профиль, чтобы увидеть посты.');
+      const imageMatches = [...payload.matchAll(/"display_url":"([^"]+)"/g)].map((m) => m[1].replace(/\u0026/g, '&'));
+      const codeMatches = [...payload.matchAll(/"shortcode":"([^"]+)"/g)].map((m) => m[1]);
+
+      const seen = new Set();
+      for (let i = 0; i < Math.min(imageMatches.length, codeMatches.length); i += 1) {
+        const link = `https://www.instagram.com/p/${codeMatches[i]}/`;
+        if (seen.has(link)) continue;
+        seen.add(link);
+        items.push({ image: imageMatches[i], link });
+      }
+    }
+
+    if (!items.length) {
+      renderInstagramNotice('Не удалось автоматически загрузить ленту. Откройте профиль, чтобы увидеть посты.');
       return;
     }
 
