@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caffee’issimo — итальянское кафе и ресторан в Ташкенте</title>
+  <meta name="description" content="Caffee’issimo — современная сеть итальянских кафе и ресторанов в Ташкенте. Узнайте о меню, кофе Illy, филиалах и доставке." />
+  <meta property="og:title" content="Caffee’issimo — итальянское кафе и ресторан в Ташкенте" />
+  <meta property="og:description" content="Итальянская кухня, кофе Illy, филиалы в Ташкенте и доставка через агрегаторы." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://caffeeissimo.example.com" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand" aria-label="Caffee’issimo">
+        <img src="assets/logo.svg" alt="Логотип Caffee’issimo" class="brand__logo" />
+      </div>
+      <nav class="nav" aria-label="Основная навигация">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="nav-list">Меню</button>
+        <ul class="nav__list" id="nav-list">
+          <li><a href="#about">О ресторане</a></li>
+          <li><a href="#benefits">Преимущества</a></li>
+          <li><a href="#cuisine">Итальянская кухня</a></li>
+          <li><a href="#coffee">Кофе Illy</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#locations">Филиалы</a></li>
+          <li><a href="#delivery">Доставка</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__overlay"></div>
+      <picture>
+        <source srcset="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80" type="image/jpeg" />
+        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80" alt="Интерьер итальянского кафе" class="hero__bg" loading="lazy" />
+      </picture>
+      <div class="container hero__content" data-animate="fade-up">
+        <div class="logo-tile" aria-hidden="true">
+          <img src="assets/logo.svg" alt="" class="logo-tile__image" />
+        </div>
+        <h1>Итальянское кафе и ресторан в Ташкенте</h1>
+        <p>Современная сеть кафе с атмосферой итальянского города, авторскими блюдами и кофейной культурой Illy.</p>
+        <div class="hero__actions">
+          <a class="btn" href="#cuisine">Посмотреть меню</a>
+          <a class="btn btn--ghost" href="#delivery">Заказать доставку</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container section__grid">
+        <div class="section__text" data-animate="fade-up">
+          <span class="eyebrow">О ресторане</span>
+          <h2>Caffee’issimo — место, где Италия встречается с Ташкентом</h2>
+          <p>Мы создали пространство, вдохновленное уютом итальянских кафе и энергией современного города. Здесь встречаются друзья, семьи и коллеги, чтобы насладиться классическими рецептами, кофе Illy и внимательным сервисом.</p>
+          <p>Каждый филиал Caffee’issimo — это продуманная атмосфера: мягкий свет, лаконичный дизайн, натуральные материалы и лёгкий запах свежеобжаренного кофе. Мы заботимся о деталях, чтобы гости чувствовали себя комфортно в любое время дня.</p>
+        </div>
+        <div class="section__media" data-animate="fade-up" data-delay="120">
+          <img src="https://images.unsplash.com/photo-1521016822196-0f4caff449fb?auto=format&fit=crop&w=1200&q=80" alt="Гости наслаждаются кофе в Caffee’issimo" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--muted" id="benefits">
+      <div class="container">
+        <div class="section__header" data-animate="fade-up">
+          <span class="eyebrow">Почему гости выбирают нас</span>
+          <h2>Ключевые преимущества</h2>
+        </div>
+        <div class="benefits">
+          <article class="benefit" data-animate="fade-up">
+            <div class="benefit__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
+                <circle cx="32" cy="32" r="24" />
+                <path d="M32 18v28m10-28v28" stroke-linecap="round" />
+                <path d="M22 22v20M18 22v20" stroke-linecap="round" />
+                <path d="M18 22h16c4 0 8 3 8 7s-4 7-8 7H18" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Итальянская кухня</h3>
+            <p>Классические рецепты пасты, пиццы и антипасти, приготовленные из свежих ингредиентов.</p>
+          </article>
+          <article class="benefit" data-animate="fade-up" data-delay="60">
+            <div class="benefit__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
+                <path d="M16 24h26v16a10 10 0 0 1-10 10H26a10 10 0 0 1-10-10V24Z" />
+                <path d="M42 28h7a6 6 0 0 1 0 12h-7" stroke-linecap="round" />
+                <path d="M26 16c-3-3-2-5 0-8m9 8c-3-3-2-5 0-8" stroke-linecap="round" />
+                <path d="M18 36h18" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Кофе Illy</h3>
+            <p>Эталон итальянского эспрессо с ярким ароматом и балансом вкуса, обжарка напрямую из Триеста.</p>
+          </article>
+          <article class="benefit" data-animate="fade-up" data-delay="120">
+            <div class="benefit__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
+                <path d="M32 54s18-18 18-30a18 18 0 1 0-36 0c0 12 18 30 18 30Z" />
+                <circle cx="32" cy="24" r="7" />
+                <path d="M24 46h16" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Несколько филиалов</h3>
+            <p>Мы расположены в популярных районах Ташкента, чтобы быть ближе к гостям в течение дня.</p>
+          </article>
+          <article class="benefit" data-animate="fade-up" data-delay="180">
+            <div class="benefit__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="presentation" aria-hidden="true">
+                <rect x="10" y="24" width="28" height="18" rx="4" />
+                <path d="M38 30h11l5 7v8h-6" stroke-linejoin="round" />
+                <circle cx="22" cy="46" r="5" />
+                <circle cx="48" cy="46" r="5" />
+                <path d="M18 24v-2c0-2 2-4 4-4h10" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Доставка через агрегаторы</h3>
+            <p>Заказывайте любимые блюда через удобные сервисы доставки без лишних кликов.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cuisine">
+      <div class="container">
+        <div class="section__header" data-animate="fade-up">
+          <span class="eyebrow">Итальянская кухня</span>
+          <h2>Меню, созданное для того, чтобы делиться</h2>
+          <p>Выберите любимые категории блюд и откройте новые вкусы Италии.</p>
+        </div>
+        <div class="categories" data-animate="fade-up">
+          <span>Антипасти</span>
+          <span>Пицца</span>
+          <span>Паста</span>
+          <span>Ризотто</span>
+          <span>Десерты</span>
+          <span>Напитки</span>
+        </div>
+        <div class="cards">
+          <article class="card" data-animate="fade-up">
+            <img src="https://images.unsplash.com/photo-1548366086-7c1b6c3d6422?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Пицца Маргарита" loading="lazy" />
+            <div class="card__body">
+              <h3>Пицца Маргарита</h3>
+              <p>Тонкое тесто, томаты Сан-Марцано и свежий базилик в лучших традициях Неаполя.</p>
+            </div>
+          </article>
+          <article class="card" data-animate="fade-up" data-delay="60">
+            <img src="https://images.unsplash.com/photo-1675257927409-b561c42f1aae?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Тальятелле с соусом" loading="lazy" />
+            <div class="card__body">
+              <h3>Тальятелле</h3>
+              <p>Свежая паста аль денте с насыщенным соусом и щепоткой пармезана.</p>
+            </div>
+          </article>
+          <article class="card" data-animate="fade-up" data-delay="120">
+            <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Брускетта" loading="lazy" />
+            <div class="card__body">
+              <h3>Брускетта с томатами</h3>
+              <p>Хрустящий чиабатта-тост, сладкие томаты и оливковое масло холодного отжима.</p>
+            </div>
+          </article>
+          <article class="card" data-animate="fade-up" data-delay="180">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Тирамису" loading="lazy" />
+            <div class="card__body">
+              <h3>Тирамису</h3>
+              <p>Классический десерт с маскарпоне и эспрессо Illy — идеальное завершение вечера.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--muted" id="coffee">
+      <div class="container section__grid section__grid--reversed">
+        <div class="section__text" data-animate="fade-up">
+          <span class="eyebrow">Кофе Illy</span>
+          <h2>Эталон итальянского эспрессо</h2>
+          <p>Мы используем фирменную смесь Illy, созданную из девяти сортов арабики, чтобы каждый эспрессо имел глубокий аромат, густую крема и сбалансированный вкус.</p>
+          <p>Бариста Caffee’issimo готовят эспрессо, капучино и авторские напитки по стандартам Италии, а оборудование настроено под каждую зерновую партию.</p>
+        </div>
+        <div class="section__media" data-animate="fade-up" data-delay="120">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" alt="Бариста готовит кофе Illy" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section__header" data-animate="fade-up">
+          <span class="eyebrow">Отзывы гостей</span>
+          <h2>Что говорят о Caffee’issimo</h2>
+          <p>Актуальные оценки и комментарии из Google и Яндекс.Карт — в едином премиальном стиле и с реальными ссылками на отзывы.</p>
+        </div>
+        <div
+          class="reviews"
+          id="reviews-list"
+          aria-live="polite"
+          data-animate="fade-up"
+          data-serpapi-key=""
+        ></div>
+        <noscript>
+          <div class="reviews reviews--static">
+            <article class="review">
+              <a
+                class="review__link"
+                href="https://www.google.com/maps/search/?api=1&query=Caffee%27issimo%20Tashkent"
+                target="_blank"
+                rel="noopener"
+              >
+                <div class="review__header">
+                  <img
+                    class="review__avatar"
+                    src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp"
+                    alt="Фото гостя"
+                  />
+                  <div>
+                    <div class="review__meta">
+                      <span class="review__source">Google</span>
+                      <span class="review__rating" aria-label="Перейти к отзывам">↗</span>
+                    </div>
+                    <h3>Отзывы Google</h3>
+                  </div>
+                </div>
+                <p>Открыть свежие оценки Caffee’issimo в Google Maps.</p>
+                <div class="review__footer">
+                  <time datetime="2024-01-01">Live</time>
+                  <span class="review__cta">Перейти →</span>
+                </div>
+              </a>
+            </article>
+            <article class="review">
+              <a
+                class="review__link"
+                href="https://yandex.uz/maps/?text=Caffee%27issimo%20Ташкент"
+                target="_blank"
+                rel="noopener"
+              >
+                <div class="review__header">
+                  <img
+                    class="review__avatar"
+                    src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80&fm=webp"
+                    alt="Фото гостя"
+                  />
+                  <div>
+                    <div class="review__meta">
+                      <span class="review__source">Яндекс</span>
+                      <span class="review__rating" aria-label="Перейти к отзывам">↗</span>
+                    </div>
+                    <h3>Отзывы Яндекс</h3>
+                  </div>
+                </div>
+                <p>Смотреть отзывы и оценки Caffee’issimo на Яндекс.Картах.</p>
+                <div class="review__footer">
+                  <time datetime="2024-01-01">Live</time>
+                  <span class="review__cta">Перейти →</span>
+                </div>
+              </a>
+            </article>
+          </div>
+        </noscript>
+      </div>
+    </section>
+
+    <section class="section" id="locations">
+      <div class="container">
+        <div class="section__header" data-animate="fade-up">
+          <span class="eyebrow">Филиалы в Ташкенте</span>
+          <h2>Выберите удобную локацию</h2>
+          <p>Кликните по адресу, чтобы построить маршрут в картах.</p>
+        </div>
+        <div class="locations">
+          <article class="location" data-animate="fade-up">
+            <h3>📍 Яшнабад</h3>
+            <p>ул. Истикбол, 47, ЖК Infinity</p>
+            <p><a class="link" href="tel:+998555140808">+998 55 514 08 08</a></p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Istiqbol+47+Infinity+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+          </article>
+          <article class="location" data-animate="fade-up" data-delay="80">
+            <h3>📍 Проспект Амира Тимура</h3>
+            <p>проспект Амира Тимура, 95А (24/7)</p>
+            <p><a class="link" href="tel:+998712050152">+998 71 205 01 52</a></p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+          </article>
+          <article class="location" data-animate="fade-up" data-delay="160">
+            <h3>📍 Юнусабад</h3>
+            <p>махалля Астробод, 4 квартал, д.84</p>
+            <p><a class="link" href="tel:+998951194444">+998 95 119 44 44</a></p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Astrobod+4+quarter+84+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+          </article>
+          <article class="location" data-animate="fade-up" data-delay="240">
+            <h3>📍 Алмазар</h3>
+            <p>ул. Талабалар, 52</p>
+            <p><a class="link" href="tel:+998712076300">+998 71 207 63 00</a></p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent" target="_blank" rel="noopener" class="link">Построить маршрут</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--muted" id="delivery">
+      <div class="container section__grid">
+        <div class="section__text" data-animate="fade-up">
+          <span class="eyebrow">Доставка еды</span>
+          <h2>Ваши любимые блюда дома или в офисе</h2>
+          <p>Мы сотрудничаем с популярными агрегаторами доставки, чтобы вы могли заказать блюда Caffee’issimo в пару кликов.</p>
+          <ul class="list">
+            <li>Горячие блюда приезжают в термоупаковке</li>
+            <li>Бережная сборка и проверка заказа</li>
+            <li>Уведомления о статусе в приложении агрегатора</li>
+          </ul>
+          <div class="delivery__logos">
+            <a class="delivery__logo-card" href="https://express24.uz/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                <rect x="10" y="10" width="100" height="100" rx="18" fill="#fff1f1" stroke="#ab0b0b" stroke-width="4" />
+                <path d="M28 64h44M28 78h28" stroke="#ab0b0b" stroke-width="6" stroke-linecap="round" />
+                <path d="M30 40h50c8 0 14 5 14 12s-6 12-14 12H42" stroke="#ab0b0b" stroke-width="6" stroke-linecap="round" />
+                <path d="M70 48l16-14" stroke="#ab0b0b" stroke-width="6" stroke-linecap="round" />
+                <text x="32" y="104" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ab0b0b">Express24</text>
+              </svg>
+              <span class="delivery__logo-label">Express24</span>
+            </a>
+            <a class="delivery__logo-card" href="https://tezkor.uzum.uz/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                <rect x="10" y="10" width="100" height="100" rx="18" fill="#f2edff" stroke="#5b2be0" stroke-width="4" />
+                <circle cx="42" cy="60" r="18" stroke="#5b2be0" stroke-width="6" />
+                <path d="M66 40h20M66 60h26M66 80h14" stroke="#5b2be0" stroke-width="6" stroke-linecap="round" />
+                <text x="26" y="104" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#5b2be0">Uzum Tezkor</text>
+              </svg>
+              <span class="delivery__logo-label">Uzum Tezkor</span>
+            </a>
+          </div>
+        </div>
+        <div class="section__media" data-animate="fade-up" data-delay="120">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="Упакованные блюда для доставки" loading="lazy" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <div class="brand brand--footer">
+          <img src="assets/logo.svg" alt="Логотип Caffee’issimo" class="brand__logo" />
+        </div>
+        <p>Современные итальянские кафе в Ташкенте. Кофе Illy, яркие вкусы и комфортная атмосфера.</p>
+        <p class="footer__copy">© 2024 Caffee’issimo</p>
+      </div>
+      <div class="footer__links">
+        <h3>Адреса</h3>
+        <ul>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Istiqbol+47+Infinity+Tashkent" target="_blank" rel="noopener">Яшнабад, ул. Истикбол, 47, ЖК Infinity</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent" target="_blank" rel="noopener">проспект Амира Тимура, 95А</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Astrobod+4+quarter+84+Tashkent" target="_blank" rel="noopener">Юнусабад, махалля Астробод, 4 квартал, д.84</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent" target="_blank" rel="noopener">Алмазар, ул. Талабалар, 52</a></li>
+        </ul>
+      </div>
+      <div class="footer__links">
+        <h3>Контакты</h3>
+        <ul>
+          <li><a href="tel:+998712050152">+998 71 205 01 52</a></li>
+          <li><a href="mailto:hello@caffeeissimo.uz">hello@caffeeissimo.uz</a></li>
+          <li><a href="#delivery">Доставка</a></li>
+        </ul>
+      </div>
+      <div class="footer__links">
+        <h3>Соцсети</h3>
+        <ul class="socials">
+          <li><a href="https://www.instagram.com/caffeeissimo/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/CaffeeIssimo/?locale=ru_RU" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
