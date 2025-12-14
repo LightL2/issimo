@@ -60,7 +60,7 @@ anchors.forEach((anchor) => {
 
 const reviewsList = document.getElementById('reviews-list');
 
-const serpApiKey = reviewsList?.dataset?.serpapiKey;
+const serperApiKey = reviewsList?.dataset?.serperKey;
 
 const renderReview = (review) => {
   const article = document.createElement('article');
@@ -103,60 +103,62 @@ const formatDate = (dateString) => {
   return formatter.format(new Date(dateString));
 };
 
-const parseReviewPayload = (payload) => ({
-  source: payload.source || 'Google',
-  rating: payload.rating || 0,
-  author: payload.author_name || 'Гость',
-  text: payload.text || '',
-  date: payload.time ? new Date(payload.time * 1000).toISOString().slice(0, 10) : '',
-  displayDate: payload.time ? formatDate(payload.time * 1000) : '',
-  photo:
-    payload.profile_photo_url ||
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
-  url: payload.link || payload.review_url || payload.url || '#',
-});
+const parseReviewPayload = (payload) => {
+  const timeValue = payload.time
+    ? payload.time * 1000
+    : payload?.date?.value
+    ? Number(payload.date.value) * 1000
+    : Date.now();
+
+  return {
+    source: payload.source || payload.provider || 'Google',
+    rating: payload.rating || payload.stars || 0,
+    author: payload.author_name || payload.user || payload.reviewer || 'Гость',
+    text: payload.text || payload.snippet || payload.comment || '',
+    date: new Date(timeValue).toISOString().slice(0, 10),
+    displayDate: formatDate(timeValue),
+    photo:
+      payload.profile_photo_url ||
+      payload.avatar ||
+      payload.photo ||
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80&fm=webp',
+    url: payload.link || payload.review_url || payload.url || payload.sourceUrl || '#',
+  };
+};
 
 const loadReviews = async () => {
   if (!reviewsList) return;
 
   reviewsList.innerHTML = '';
 
-  if (!serpApiKey) {
+  if (!serperApiKey) {
     renderNotice(
-      'Для загрузки живых отзывов добавьте ключ SerpAPI в атрибут data-serpapi-key или перейдите по ссылкам на Google/Яндекс.'
+      'Для загрузки живых отзывов добавьте бесплатный ключ Serper.dev в атрибут data-serper-key или воспользуйтесь ссылками в блоке без JavaScript.'
     );
     return;
   }
 
   try {
-    const searchUrl = new URL('https://serpapi.com/search.json');
-    searchUrl.search = new URLSearchParams({
-      engine: 'google_maps',
-      q: 'Caffee\'issimo Tashkent',
-      hl: 'ru',
-      api_key: serpApiKey,
-    }).toString();
+    const response = await fetch('https://google.serper.dev/places', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': serperApiKey,
+      },
+      body: JSON.stringify({
+        q: "Caffee'issimo Tashkent",
+        gl: 'uz',
+        hl: 'ru',
+      }),
+    });
 
-    const searchResponse = await fetch(searchUrl.toString());
-    const searchJson = await searchResponse.json();
-    const dataId = searchJson?.local_results?.[0]?.data_id;
-
-    if (!dataId) {
-      renderNotice('Не удалось найти карточку Google Maps. Проверьте корректность ключа и названия места.');
+    if (!response.ok) {
+      renderNotice('Не удалось получить данные об отзывах. Проверьте ключ или попробуйте позже.');
       return;
     }
 
-    const reviewsUrl = new URL('https://serpapi.com/search.json');
-    reviewsUrl.search = new URLSearchParams({
-      engine: 'google_maps_reviews',
-      hl: 'ru',
-      data_id: dataId,
-      api_key: serpApiKey,
-    }).toString();
-
-    const reviewsResponse = await fetch(reviewsUrl.toString());
-    const reviewsJson = await reviewsResponse.json();
-    const reviews = reviewsJson?.reviews || [];
+    const json = await response.json();
+    const reviews = json?.reviews || json?.placeReviews || [];
 
     if (!reviews.length) {
       renderNotice('К сожалению, отзывы не найдены.');
