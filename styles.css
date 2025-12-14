@@ -255,7 +255,7 @@ p {
 }
 
 .section__media img {
-  width: 100%;
+  width: 85%;
   height: 100%;
   object-fit: cover;
   box-shadow: var(--shadow);
@@ -388,9 +388,9 @@ p {
   flex-wrap: wrap;
 }
 
-.insta-grid {
+.reviews {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
   margin-top: 28px;
 }
