@@ -878,6 +878,6 @@ p {
     flex-direction: column-reverse;
 }
   .delivery__logos {
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
 }
