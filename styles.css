@@ -880,4 +880,7 @@ p {
   .delivery__logos {
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
+ #coffee {
+    padding-top: 10px;
+}
 }
