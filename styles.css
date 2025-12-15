@@ -877,4 +877,7 @@ p {
     align-items: center;
     flex-direction: column-reverse;
 }
+  .delivery__logos {
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+}
 }
