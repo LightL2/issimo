@@ -881,6 +881,6 @@ p {
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
 }
  #coffee {
-    padding-top: 10px;
+    padding-top: 10px !important;
 }
 }
