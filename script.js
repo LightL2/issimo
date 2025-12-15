@@ -65,6 +65,89 @@ const instagramProfile = 'https://www.instagram.com/caffeeissimo/';
 const instagramProxy =
   'https://r.jina.ai/http://www.instagram.com/api/v1/users/web_profile_info/?username=caffeeissimo';
 
+const menuGalleryTrack = document.querySelector('.menu-gallery__track');
+const menuGalleryDots = document.querySelector('.menu-gallery__dots');
+const prevControl = document.querySelector('.menu-gallery__control--prev');
+const nextControl = document.querySelector('.menu-gallery__control--next');
+const menuSlides = menuGalleryTrack ? Array.from(menuGalleryTrack.children) : [];
+
+let menuSlideIndex = 0;
+let menuSlideTimer;
+
+const updateMenuDots = () => {
+  if (!menuDots.length) return;
+  menuDots.forEach((dot, index) => {
+    const isActive = index === menuSlideIndex;
+    dot.setAttribute('aria-selected', String(isActive));
+    dot.classList.toggle('is-active', isActive);
+  });
+};
+
+const setMenuSlide = (index, userInitiated = false) => {
+  if (!menuSlides.length || !menuGalleryTrack) return;
+  menuSlideIndex = (index + menuSlides.length) % menuSlides.length;
+  menuGalleryTrack.style.transform = `translateX(-${menuSlideIndex * 100}%)`;
+  menuSlides.forEach((slide, i) => slide.classList.toggle('is-active', i === menuSlideIndex));
+  updateMenuDots();
+  if (userInitiated) restartMenuAutoplay();
+};
+
+const setupMenuDots = () => {
+  if (!menuGalleryDots || !menuSlides.length) return [];
+  menuGalleryDots.innerHTML = '';
+  return menuSlides.map((_, index) => {
+    const dot = document.createElement('button');
+    dot.className = 'menu-gallery__dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Кадр ${index + 1}`);
+    dot.addEventListener('click', () => setMenuSlide(index, true));
+    menuGalleryDots.appendChild(dot);
+    return dot;
+  });
+};
+
+const menuDots = setupMenuDots();
+
+const nextMenuSlide = () => setMenuSlide(menuSlideIndex + 1);
+const prevMenuSlide = () => setMenuSlide(menuSlideIndex - 1);
+
+const stopMenuAutoplay = () => {
+  if (menuSlideTimer) {
+    clearInterval(menuSlideTimer);
+    menuSlideTimer = undefined;
+  }
+};
+
+const startMenuAutoplay = () => {
+  if (prefersReduceMotion.matches || !menuSlides.length) return;
+  stopMenuAutoplay();
+  menuSlideTimer = setInterval(nextMenuSlide, 6500);
+};
+
+const restartMenuAutoplay = () => {
+  stopMenuAutoplay();
+  startMenuAutoplay();
+};
+
+if (menuSlides.length) {
+  setMenuSlide(0);
+  startMenuAutoplay();
+}
+
+if (nextControl) {
+  nextControl.addEventListener('click', () => {
+    nextMenuSlide();
+    restartMenuAutoplay();
+  });
+}
+
+if (prevControl) {
+  prevControl.addEventListener('click', () => {
+    prevMenuSlide();
+    restartMenuAutoplay();
+  });
+}
+
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 const renderInstagramCard = (item) => {

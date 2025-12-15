@@ -27,7 +27,7 @@
         <ul class="nav__list" id="nav-list">
           <li><a href="#about">О ресторане</a></li>
           <li><a href="#benefits">Преимущества</a></li>
-          <li><a href="#cuisine">Итальянская кухня</a></li>
+          <li><a href="#cuisine">Галерея меню</a></li>
           <li><a href="#coffee">Кофе Illy</a></li>
           <li><a href="#instagram">Instagram</a></li>
           <li><a href="#locations">Филиалы</a></li>
@@ -110,50 +110,76 @@
       </div>
     </section>
 
-    <section class="section" id="cuisine">
-      <div class="container">
+    <section class="section section--muted" id="cuisine">
+      <div class="container menu-gallery">
         <div class="section__header" data-animate="fade-up">
-          <span class="eyebrow">Итальянская кухня</span>
-          <h2>Меню, созданное для того, чтобы делиться</h2>
-          <p>Выберите любимые категории блюд и откройте новые вкусы Италии.</p>
+          <span class="eyebrow">Галерея меню</span>
+          <h2>Вкус Италии в живых кадрах</h2>
+          <p>Листайте подборку фирменных блюд и напитков — выберите то, что хочется попробовать прямо сейчас.</p>
         </div>
-        <div class="categories" data-animate="fade-up">
-          <span>Антипаста</span>
-          <span>Пицца</span>
-          <span>Паста</span>
-          <span>Ризотто</span>
-          <span>Десерты</span>
-          <span>Напитки</span>
-        </div>
-        <div class="cards">
-          <article class="card" data-animate="fade-up">
-            <img src="https://images.unsplash.com/photo-1548366086-7c1b6c3d6422?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Пицца Маргарита" loading="lazy" />
-            <div class="card__body">
-              <h3>Пицца Маргарита</h3>
-              <p>Тонкое тесто, томаты Сан-Марцано и свежий базилик в лучших традициях Неаполя.</p>
+        <div class="menu-gallery__frame" data-animate="fade-up" aria-live="polite">
+          <div class="menu-gallery__cta">
+            <a class="btn" href="#delivery">Заказать доставку</a>
+          </div>
+          <button class="menu-gallery__control menu-gallery__control--prev" type="button" aria-label="Предыдущее блюдо">
+            <span>‹</span>
+          </button>
+          <div class="menu-gallery__viewport">
+            <div class="menu-gallery__track">
+              <article class="menu-card" data-category="Паста">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Паста с морепродуктами" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Паста</p>
+                  <h3>Спагетти с морепродуктами</h3>
+                  <p>Домашние спагетти, томатный соус, креветки и мидии — подача с травами и оливковым маслом.</p>
+                </div>
+              </article>
+              <article class="menu-card" data-category="Горячее">
+                <img src="https://images.unsplash.com/photo-1473091534298-04dcbce3278c?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Куриное филе с гарниром" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Горячие блюда</p>
+                  <h3>Куриное филе с сезонным гарниром</h3>
+                  <p>Сочная курица на гриле, молодая картошка, розмарин и сливочный соус.</p>
+                </div>
+              </article>
+              <article class="menu-card" data-category="Пицца">
+                <img src="https://images.unsplash.com/photo-1548366086-7c1b6c3d6422?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Пицца с морепродуктами" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Пицца</p>
+                  <h3>Пицца Фрутти ди Маре</h3>
+                  <p>Тонкое тесто, кальмары, мидии и креветки с соусом из томатов Сан-Марцано.</p>
+                </div>
+              </article>
+              <article class="menu-card" data-category="Салаты">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Салат с ростбифом" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Салаты</p>
+                  <h3>Салат с ростбифом и рукколой</h3>
+                  <p>Листья рукколы, маринованный ростбиф, вяленые томаты и лёгкая бальзамическая заправка.</p>
+                </div>
+              </article>
+              <article class="menu-card" data-category="Десерты">
+                <img src="https://images.unsplash.com/photo-1505253758473-96b7015fcd40?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Десерт Тирамису" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Десерты</p>
+                  <h3>Тирамису с эспрессо Illy</h3>
+                  <p>Нежный маскарпоне, савоярди, какао и свежесваренный эспрессо — классика в авторской подаче.</p>
+                </div>
+              </article>
+              <article class="menu-card" data-category="Напитки">
+                <img src="https://images.unsplash.com/photo-1497534446932-c925b458314e?auto=format&fit=crop&w=1600&q=80&fm=webp" alt="Освежающие лимонады" loading="lazy" />
+                <div class="menu-card__body">
+                  <p class="menu-card__eyebrow">Напитки</p>
+                  <h3>Авторские лимонады</h3>
+                  <p>Яркие вкусы манго, цитрусов и ягод с декоративными цветами — идеально охлаждают.</p>
+                </div>
+              </article>
             </div>
-          </article>
-          <article class="card" data-animate="fade-up" data-delay="60">
-            <img src="https://images.unsplash.com/photo-1675257927409-b561c42f1aae?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Тальятелле с соусом" loading="lazy" />
-            <div class="card__body">
-              <h3>Тальятелле</h3>
-              <p>Свежая паста аль денте с насыщенным соусом и щепоткой пармезана.</p>
-            </div>
-          </article>
-          <article class="card" data-animate="fade-up" data-delay="120">
-            <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Брускетта" loading="lazy" />
-            <div class="card__body">
-              <h3>Брускетта с томатами</h3>
-              <p>Хрустящий чиабатта-тост, сладкие томаты и оливковое масло холодного отжима.</p>
-            </div>
-          </article>
-          <article class="card" data-animate="fade-up" data-delay="180">
-            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=80&fm=webp" alt="Тирамису" loading="lazy" />
-            <div class="card__body">
-              <h3>Тирамису</h3>
-              <p>Классический десерт с маскарпоне и эспрессо Illy — идеальное завершение вечера.</p>
-            </div>
-          </article>
+          </div>
+          <button class="menu-gallery__control menu-gallery__control--next" type="button" aria-label="Следующее блюдо">
+            <span>›</span>
+          </button>
+          <div class="menu-gallery__dots" role="tablist" aria-label="Карусель галереи меню"></div>
         </div>
       </div>
     </section>
