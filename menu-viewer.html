@@ -9,27 +9,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root { --red: #AB0B0B; }
+    :root { --red: #AB0B0B; --red-dark: #8f0909; }
 
     html, body {
-      height: 100%;
+      height: 100%; background: #f2f2f2;
       font-family: 'Inter', sans-serif;
-      background: #f2f2f2;
       overscroll-behavior: none;
     }
 
-    /* ── Top bar ── */
-    .topbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+    /* ══ LOADING OVERLAY ══════════════════════════════════════════ */
+    #overlay {
+      position: fixed; inset: 0; z-index: 999;
       background: #fff;
-      border-bottom: 1px solid #e8e8e8;
-      display: flex;
-      align-items: center;
-      padding: env(safe-area-inset-top, 0) 16px 0;
-      height: calc(56px + env(safe-area-inset-top, 0));
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 24px; padding: 40px 32px;
+      transition: opacity 0.4s ease;
+    }
+    #overlay.hide { opacity: 0; pointer-events: none; }
+
+    .ov-logo { width: 140px; height: auto; }
+
+    .ov-title {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+      text-align: center;
+    }
+
+    .ov-bar-wrap {
+      width: 100%; max-width: 240px;
+      height: 4px; background: #eee; border-radius: 4px;
+      overflow: hidden;
+    }
+    .ov-bar {
+      height: 100%; width: 0%;
+      background: var(--red);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .ov-status {
+      font-size: 13px; color: #999; font-weight: 500;
+    }
+
+    /* ══ TOP BAR ══════════════════════════════════════════════════ */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: #fff; border-bottom: 1px solid #e8e8e8;
+      display: flex; align-items: center;
+      padding: env(safe-area-inset-top,0) 16px 0;
+      height: calc(56px + env(safe-area-inset-top,0));
       gap: 8px;
     }
 
@@ -37,10 +65,13 @@
       display: flex; align-items: center; gap: 5px;
       font-size: 14px; font-weight: 600;
       color: var(--red); text-decoration: none;
-      padding: 10px 4px 10px 0;
-      white-space: nowrap;
+      padding: 10px 4px 10px 0; white-space: nowrap;
     }
-    .topbar-back svg { width: 20px; height: 20px; fill: none; stroke: var(--red); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .topbar-back svg {
+      width: 20px; height: 20px;
+      fill: none; stroke: var(--red);
+      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+    }
 
     .topbar-title {
       flex: 1; text-align: center;
@@ -48,85 +79,73 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
+    .topbar-spacer { width: 60px; } /* balance back button */
 
-    /* ── Scroll container ── */
-    .viewer {
+    /* ══ VIEWER ═══════════════════════════════════════════════════ */
+    #viewer {
       position: fixed;
-      top: calc(56px + env(safe-area-inset-top, 0));
+      top: calc(56px + env(safe-area-inset-top,0));
       bottom: 0; left: 0; right: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       align-items: center;
-      padding: 14px 8px calc(24px + env(safe-area-inset-bottom, 0));
+      padding: 14px 8px calc(24px + env(safe-area-inset-bottom,0));
       gap: 10px;
+      visibility: hidden; /* shown after preload */
     }
+    #viewer.visible { visibility: visible; }
 
-    /* ── Page slot: placeholder + canvas ── */
+    /* ══ PAGE SLOTS ═══════════════════════════════════════════════ */
     .page-slot {
-      width: 100%;
-      max-width: 700px;
-      background: #fff;
+      width: 100%; max-width: 700px;
+      background: #e8e8e8;
       border-radius: 4px;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.09);
       overflow: hidden;
-      position: relative;
+      flex-shrink: 0;
     }
 
-    .page-placeholder {
-      width: 100%;
-      background: #f9f9f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Spinner inside placeholder */
+    .page-slot.loading {
+      display: flex; align-items: center; justify-content: center;
     }
-
-    .page-spinner {
-      width: 28px; height: 28px;
-      border: 3px solid #e8e8e8;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .page-canvas {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* ── Initial loading ── */
-    .init-loading {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 14px;
-      padding: 80px 20px;
-      color: #888; font-size: 14px;
-      width: 100%;
-    }
-
-    .big-spinner {
-      width: 40px; height: 40px;
-      border: 3px solid #e8e8e8;
+    .slot-spinner {
+      width: 26px; height: 26px;
+      border: 3px solid #ddd;
       border-top-color: var(--red);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Canvas: hidden until swap */
+    .page-slot canvas {
+      display: block; width: 100%; height: auto;
+      opacity: 0; transition: opacity 0.25s ease;
+    }
+    .page-slot.ready canvas { opacity: 1; }
 
-    /* ── Error ── */
-    .error-box {
+    /* ══ PAGE COUNTER ═════════════════════════════════════════════ */
+    #counter {
+      position: fixed;
+      bottom: calc(14px + env(safe-area-inset-bottom,0));
+      left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.5); color: #fff;
+      font-size: 12px; font-weight: 600;
+      padding: 5px 14px; border-radius: 20px;
+      pointer-events: none; white-space: nowrap;
+      opacity: 0; transition: opacity 0.25s;
+    }
+    #counter.on { opacity: 1; }
+
+    /* ══ ERROR ════════════════════════════════════════════════════ */
+    #error-box {
       display: none; flex-direction: column;
       align-items: center; gap: 14px;
       padding: 60px 24px; text-align: center; width: 100%;
     }
-    .error-box svg { width: 44px; height: 44px; fill: #ddd; }
-    .error-box p { font-size: 14px; color: #999; }
-    .error-box a {
+    #error-box svg { width: 44px; height: 44px; fill: #ddd; }
+    #error-box p { font-size: 14px; color: #999; }
+    #error-box a {
       display: inline-flex; align-items: center; gap: 6px;
       background: var(--red); color: #fff;
       font-size: 14px; font-weight: 600;
@@ -134,168 +153,212 @@
       text-decoration: none;
     }
 
-    /* ── Page counter ── */
-    .counter {
-      position: fixed;
-      bottom: calc(14px + env(safe-area-inset-bottom, 0));
-      left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.5);
-      color: #fff; font-size: 12px; font-weight: 600;
-      padding: 5px 14px; border-radius: 20px;
-      pointer-events: none; white-space: nowrap;
-      opacity: 0; transition: opacity 0.25s;
-    }
-    .counter.on { opacity: 1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
+<!-- ── Loading overlay ─────────────────────────────────────── -->
+<div id="overlay">
+  <img class="ov-logo" src="Assets/logo-full.png" alt="Caffee'issimo" />
+  <p class="ov-title" id="ov-title">Основное меню</p>
+  <div class="ov-bar-wrap"><div class="ov-bar" id="ov-bar"></div></div>
+  <p class="ov-status" id="ov-status">Загрузка…</p>
+</div>
+
+<!-- ── Top bar ─────────────────────────────────────────────── -->
 <header class="topbar">
   <a class="topbar-back" href="taplink.html">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     Назад
   </a>
   <span class="topbar-title" id="page-title">Меню</span>
+  <span class="topbar-spacer"></span>
 </header>
 
-<main class="viewer" id="viewer">
-  <div class="init-loading" id="init-loading">
-    <div class="big-spinner"></div>
-    <span>Загрузка…</span>
-  </div>
-  <div class="error-box" id="error-box">
+<!-- ── Viewer ──────────────────────────────────────────────── -->
+<main id="viewer">
+  <div id="error-box">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="16"/><circle cx="12" cy="18" r="1"/></svg>
     <p>Не удалось загрузить меню</p>
-    <a id="error-dl" href="#">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Скачать PDF
-    </a>
+    <a id="error-dl" href="#">Попробовать снова</a>
   </div>
 </main>
 
-<div class="counter" id="counter"></div>
+<!-- ── Counter ──────────────────────────────────────────────── -->
+<div id="counter"></div>
 
 <script type="module">
-  // ── Config from URL params ──────────────────────────────────────
+  /* ── Config ─────────────────────────────────────────────────── */
   const params  = new URLSearchParams(location.search);
   const type    = params.get('type') || 'main';
   const configs = {
-    main:      { title: 'Основное меню',   pdf: 'Assets/menu-main.pdf',      dl: 'Меню Caffeeissimo.pdf' },
-    breakfast: { title: 'Меню завтраков',  pdf: 'Assets/menu-breakfast.pdf', dl: 'Меню завтраков Caffeeissimo.pdf' },
+    main:      { title: 'Основное меню',  pdf: 'Assets/menu-main.pdf'      },
+    breakfast: { title: 'Меню завтраков', pdf: 'Assets/menu-breakfast.pdf' },
   };
   const cfg = configs[type] || configs.main;
 
-  document.title        = cfg.title + ' — Caffee\'issimo';
+  document.title = cfg.title + ' — Caffee\'issimo';
   document.getElementById('page-title').textContent = cfg.title;
-  document.getElementById('error-dl').href    = cfg.pdf;
-  document.getElementById('error-dl').download = cfg.dl;
+  document.getElementById('ov-title').textContent   = cfg.title;
+  document.getElementById('error-dl').onclick = () => location.reload();
 
-  // ── PDF.js ──────────────────────────────────────────────────────
+  /* ── PDF.js ─────────────────────────────────────────────────── */
   const { getDocument, GlobalWorkerOptions } = await import(
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs'
   );
   GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
 
-  const viewer      = document.getElementById('viewer');
-  const initLoading = document.getElementById('init-loading');
-  const errorBox    = document.getElementById('error-box');
-  const counter     = document.getElementById('counter');
-  const DPR         = Math.min(window.devicePixelRatio || 1, 2); // cap at 2× for perf
+  /* ── Elements ───────────────────────────────────────────────── */
+  const viewer   = document.getElementById('viewer');
+  const overlay  = document.getElementById('overlay');
+  const ovBar    = document.getElementById('ov-bar');
+  const ovStatus = document.getElementById('ov-status');
+  const counter  = document.getElementById('counter');
+  const errorBox = document.getElementById('error-box');
 
-  let counterTimer = null;
-  function showCounter(text) {
-    counter.textContent = text;
-    counter.classList.add('on');
-    clearTimeout(counterTimer);
-    counterTimer = setTimeout(() => counter.classList.remove('on'), 2000);
+  /* Limit DPR to 1.5 — good balance of sharpness vs speed on mobile */
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+
+  /* ── Render queue ───────────────────────────────────────────── */
+  let renderBusy = false;
+  const renderQueue = [];
+
+  function enqueue(slot) {
+    renderQueue.push(slot);
+    if (!renderBusy) drainQueue();
   }
 
-  // ── Lazy rendering via IntersectionObserver ─────────────────────
-  const rendered = new Set();
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !rendered.has(entry.target)) {
-        rendered.add(entry.target);
-        renderSlot(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { root: viewer, rootMargin: '200px 0px' }); // pre-load 200px ahead
+  async function drainQueue() {
+    if (!renderQueue.length) { renderBusy = false; return; }
+    renderBusy = true;
+    const slot = renderQueue.shift();
+    if (!slot.isConnected) { drainQueue(); return; }
+    await renderSlot(slot);
+    drainQueue();
+  }
 
+  /* ── Render one page slot ───────────────────────────────────── */
   async function renderSlot(slot) {
     const pageNum = parseInt(slot.dataset.page, 10);
     const pdf     = slot._pdf;
     try {
-      const page       = await pdf.getPage(pageNum);
-      const baseVp     = page.getViewport({ scale: 1 });
-      const scale      = (slot.clientWidth / baseVp.width) * DPR;
-      const viewport   = page.getViewport({ scale });
+      const page     = await pdf.getPage(pageNum);
+      const baseVp   = page.getViewport({ scale: 1 });
+      const slotW    = viewer.clientWidth - 16;
+      const scale    = (slotW / baseVp.width) * DPR;
+      const viewport = page.getViewport({ scale });
 
-      const canvas     = document.createElement('canvas');
-      canvas.className = 'page-canvas';
-      canvas.width     = viewport.width;
-      canvas.height    = viewport.height;
+      /* Render onto offscreen canvas first — no partial display */
+      const canvas        = document.createElement('canvas');
+      canvas.width        = viewport.width;
+      canvas.height       = viewport.height;
       canvas.style.width  = `${viewport.width  / DPR}px`;
       canvas.style.height = `${viewport.height / DPR}px`;
 
       await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
 
+      /* Swap placeholder → rendered canvas */
       slot.innerHTML = '';
       slot.appendChild(canvas);
-    } catch (e) {
-      slot.innerHTML = '<div style="padding:20px;text-align:center;color:#bbb;font-size:13px">Ошибка страницы</div>';
+      slot.classList.remove('loading');
+      slot.classList.add('ready');
+      /* Force repaint then fade in */
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { canvas.style.opacity = '1'; });
+      });
+    } catch {
+      slot.innerHTML = '<div style="padding:16px;text-align:center;color:#bbb;font-size:12px">—</div>';
+      slot.classList.remove('loading');
     }
   }
 
-  // Detect which page is in the middle of viewport
+  /* ── Progress overlay helper ────────────────────────────────── */
+  function updateProgress(done, total) {
+    ovBar.style.width = `${Math.round(done / total * 100)}%`;
+    ovStatus.textContent = `Страница ${done} из ${total}…`;
+  }
+
+  /* ── Page counter on scroll ─────────────────────────────────── */
+  let counterTimer = null;
   function onScroll() {
     const slots = viewer.querySelectorAll('.page-slot');
     if (!slots.length) return;
     const mid = viewer.scrollTop + viewer.clientHeight / 2;
-    let best = slots[0], bestDist = Infinity;
+    let best = slots[0], bestD = Infinity;
     slots.forEach(s => {
       const d = Math.abs(s.offsetTop - mid);
-      if (d < bestDist) { bestDist = d; best = s; }
+      if (d < bestD) { bestD = d; best = s; }
     });
-    showCounter(`Стр. ${best.dataset.page} / ${slots.length}`);
+    counter.textContent = `${best.dataset.page} / ${slots.length}`;
+    counter.classList.add('on');
+    clearTimeout(counterTimer);
+    counterTimer = setTimeout(() => counter.classList.remove('on'), 1800);
   }
   viewer.addEventListener('scroll', onScroll, { passive: true });
 
-  // ── Main ────────────────────────────────────────────────────────
-  try {
-    const pdf = await getDocument(cfg.pdf).promise;
-    initLoading.remove();
-
-    // Build placeholder slots for ALL pages (fast — no rendering yet)
-    for (let i = 1; i <= pdf.numPages; i++) {
-      // Estimate page height from first page viewport to keep layout stable
-      let phHeight = 400;
-      if (i === 1) {
-        const pg = await pdf.getPage(1);
-        const vp = pg.getViewport({ scale: 1 });
-        phHeight = Math.round((viewer.clientWidth - 16) / vp.width * vp.height);
+  /* ── IntersectionObserver for lazy pages (6+) ───────────────── */
+  const lazyObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.classList.contains('ready') &&
+          !e.target.classList.contains('queued')) {
+        e.target.classList.add('queued');
+        enqueue(e.target);
+        lazyObserver.unobserve(e.target);
       }
+    });
+  }, { root: viewer, rootMargin: '300px 0px' });
 
+  /* ── MAIN ───────────────────────────────────────────────────── */
+  try {
+    const pdf        = await getDocument(cfg.pdf).promise;
+    const total      = pdf.numPages;
+    const PRELOAD    = Math.min(5, total);
+
+    /* Estimate placeholder height from page 1 */
+    const firstPage  = await pdf.getPage(1);
+    const firstVp    = firstPage.getViewport({ scale: 1 });
+    const slotW      = viewer.clientWidth - 16;
+    const phHeight   = Math.round(slotW / firstVp.width * firstVp.height);
+
+    /* Build all placeholder slots */
+    const slots = [];
+    for (let i = 1; i <= total; i++) {
       const slot = document.createElement('div');
-      slot.className      = 'page-slot';
-      slot.dataset.page   = i;
-      slot._pdf           = pdf;
-
-      const ph = document.createElement('div');
-      ph.className        = 'page-placeholder';
-      ph.style.height     = phHeight + 'px';
-      ph.innerHTML        = '<div class="page-spinner"></div>';
-
-      slot.appendChild(ph);
+      slot.className    = 'page-slot loading';
+      slot.dataset.page = i;
+      slot._pdf         = pdf;
+      slot.style.height = phHeight + 'px';
+      slot.innerHTML    = '<div class="slot-spinner"></div>';
       viewer.appendChild(slot);
-      observer.observe(slot);
+      slots.push(slot);
     }
 
-    showCounter(`1 / ${pdf.numPages}`);
+    /* ── Phase 1: preload first 5 pages (blocking, with progress) ── */
+    for (let i = 0; i < PRELOAD; i++) {
+      updateProgress(i + 1, PRELOAD);
+      await renderSlot(slots[i]);
+    }
+
+    /* Show viewer, hide overlay */
+    viewer.classList.add('visible');
+    overlay.classList.add('hide');
+    setTimeout(() => overlay.remove(), 450);
+
+    /* ── Phase 2: lazy load pages 6+ via IntersectionObserver ──── */
+    for (let i = PRELOAD; i < total; i++) {
+      lazyObserver.observe(slots[i]);
+    }
+
+    counter.textContent = `1 / ${total}`;
+    counter.classList.add('on');
+    setTimeout(() => counter.classList.remove('on'), 2000);
+
   } catch (err) {
     console.error(err);
-    initLoading.style.display = 'none';
+    overlay.remove();
+    viewer.classList.add('visible');
     errorBox.style.display = 'flex';
   }
 </script>
