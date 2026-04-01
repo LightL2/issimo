@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Меню завтраков — Caffee'issimo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #AB0B0B;
+      --red-dark: #8f0909;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #f4f4f4;
+      color: #1a1a1a;
+      overscroll-behavior: none;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 56px;
+      background: #fff;
+      border-bottom: 1px solid #ebebeb;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      padding-top: env(safe-area-inset-top, 0);
+    }
+
+    .topbar-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--red);
+      text-decoration: none;
+      padding: 8px 0;
+    }
+    .topbar-back svg { width: 18px; height: 18px; fill: none; stroke: var(--red); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .topbar-title {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-download {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      text-decoration: none;
+      padding: 8px 0;
+    }
+    .topbar-download svg { width: 17px; height: 17px; fill: none; stroke: var(--red); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Viewer area ── */
+    .viewer {
+      position: fixed;
+      inset: 0;
+      top: 56px;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #f4f4f4;
+      padding: 16px 8px 80px;
+      gap: 12px;
+    }
+
+    /* ── Canvas pages ── */
+    .pdf-page {
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      border-radius: 4px;
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── Loading state ── */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: #888;
+      font-size: 14px;
+      padding: 60px 20px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #e0e0e0;
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Page counter ── */
+    .page-counter {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0));
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+    .page-counter.visible { opacity: 1; }
+
+    /* ── Error state ── */
+    .error-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .error-box svg { width: 48px; height: 48px; fill: #ddd; }
+    .error-box p { font-size: 14px; color: #888; }
+    .error-box a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+    }
+    .error-box a:active { opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a class="topbar-back" href="taplink.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Назад
+    </a>
+    <span class="topbar-title">Меню завтраков</span>
+    <a class="topbar-download" href="Assets/menu-breakfast.pdf" download="Меню завтраков — Caffeeissimo.pdf">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Скачать
+    </a>
+  </header>
+
+  <!-- PDF viewer -->
+  <main class="viewer" id="viewer">
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <span>Загрузка меню…</span>
+    </div>
+
+    <div class="error-box" id="error-box">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="16"/><circle cx="12" cy="18" r="1"/></svg>
+      <p>Не удалось отобразить меню</p>
+      <a href="Assets/menu-breakfast.pdf" download="Меню завтраков — Caffeeissimo.pdf">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Скачать PDF
+      </a>
+    </div>
+  </main>
+
+  <!-- Page counter -->
+  <div class="page-counter" id="page-counter"></div>
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+
+    const viewer   = document.getElementById('viewer');
+    const loading  = document.getElementById('loading');
+    const errorBox = document.getElementById('error-box');
+    const counter  = document.getElementById('page-counter');
+
+    let counterTimer = null;
+
+    function showCounter(text) {
+      counter.textContent = text;
+      counter.classList.add('visible');
+      clearTimeout(counterTimer);
+      counterTimer = setTimeout(() => counter.classList.remove('visible'), 2000);
+    }
+
+    // Detect visible page on scroll
+    function onScroll() {
+      const canvases = viewer.querySelectorAll('.pdf-page');
+      if (!canvases.length) return;
+      const mid = viewer.scrollTop + viewer.clientHeight / 2;
+      let closest = canvases[0];
+      let minDist = Infinity;
+      canvases.forEach(c => {
+        const dist = Math.abs(c.offsetTop - mid);
+        if (dist < minDist) { minDist = dist; closest = c; }
+      });
+      showCounter(`Стр. ${closest.dataset.page} / ${canvases.length}`);
+    }
+
+    viewer.addEventListener('scroll', onScroll, { passive: true });
+
+    async function renderPDF() {
+      try {
+        const pdf = await pdfjsLib.getDocument('Assets/menu-breakfast.pdf').promise;
+        loading.remove();
+
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        const viewerWidth = viewer.clientWidth - 16; // padding
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const unscaledViewport = page.getViewport({ scale: 1 });
+          const scale = (viewerWidth / unscaledViewport.width) * devicePixelRatio;
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement('canvas');
+          canvas.className = 'pdf-page';
+          canvas.dataset.page = pageNum;
+          canvas.width  = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width  = `${viewport.width / devicePixelRatio}px`;
+          canvas.style.height = `${viewport.height / devicePixelRatio}px`;
+
+          viewer.appendChild(canvas);
+
+          await page.render({
+            canvasContext: canvas.getContext('2d'),
+            viewport,
+          }).promise;
+        }
+
+        showCounter(`1 / ${pdf.numPages}`);
+      } catch (err) {
+        console.error(err);
+        loading.style.display = 'none';
+        errorBox.style.display = 'flex';
+      }
+    }
+
+    renderPDF();
+  </script>
+</body>
+</html>

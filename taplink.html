@@ -15,28 +15,29 @@
       --red:      #AB0B0B;
       --red-dark: #8f0909;
       --text:     #1a1a1a;
-      --muted:    #6b6b6b;
-      --border:   #e8e8e8;
-      --radius:   14px;
+      --muted:    #717171;
+      --border:   #ebebeb;
+      --bg:       #fff;
+      --radius-btn: 50px;
+      --radius-icon: 12px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #fff;
+      background: var(--bg);
       color: var(--text);
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
     }
 
     .page {
       width: 100%;
       max-width: 460px;
-      padding: 40px 20px 60px;
+      padding: 40px 20px 64px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -44,130 +45,34 @@
 
     /* ── Logo ── */
     .logo-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       margin-bottom: 32px;
       opacity: 0;
-      animation: fadeUp 0.45s ease forwards 0.05s;
+      animation: fadeUp 0.4s ease forwards 0.05s;
     }
-
     .logo-wrap img {
       width: 160px;
       height: auto;
-      object-fit: contain;
+      display: block;
     }
 
     /* ── Section label ── */
     .section-label {
       width: 100%;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 10px;
-      padding-left: 2px;
     }
 
-    /* ── Links list ── */
+    /* ── Links group ── */
     .links {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Base button ── */
-    .btn-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      padding: 15px 18px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: opacity 0.15s ease, transform 0.15s ease;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      animation: fadeUp 0.4s ease forwards;
-    }
-
-    .btn-link:active {
-      transform: scale(0.97);
-      opacity: 0.85;
-    }
-
-    /* ── Red filled (main style like on screenshot) ── */
-    .btn-link--red {
-      background: var(--red);
-      color: #fff;
-      justify-content: center;
-    }
-
-    .btn-link--red:hover { background: var(--red-dark); }
-
-    .btn-link--red .btn-icon {
-      position: absolute;
-      left: 18px;
-      width: 28px;
-      height: 28px;
-      background: rgba(255,255,255,0.18);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-    }
-
-    /* ── Outlined ── */
-    .btn-link--outline {
-      background: #fff;
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      justify-content: flex-start;
-    }
-
-    .btn-link--outline:hover {
-      border-color: #ccc;
-      background: #fafafa;
-    }
-
-    .btn-link--outline .btn-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .btn-link--outline .btn-label { flex: 1; }
-
-    .btn-link--outline .btn-arrow {
-      color: #ccc;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    /* ── Icon bg colors ── */
-    .icon-ig   { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
-    .icon-fb   { background: #1877f2; }
-    .icon-yex  { background: linear-gradient(135deg, #fc3f1d, #ff6520); }
-    .icon-uzum { background: linear-gradient(135deg, #7c3aed, #a855f7); }
-    .icon-web  { background: var(--red); }
-    .icon-tel  { background: #16a34a; }
-
-    .btn-icon svg {
-      width: 18px;
-      height: 18px;
-      fill: #fff;
+      gap: 9px;
+      margin-bottom: 24px;
     }
 
     /* ── Divider ── */
@@ -175,27 +80,129 @@
       width: 100%;
       height: 1px;
       background: var(--border);
-      margin: 4px 0 24px;
+      margin: 0 0 24px;
+    }
+
+    /* ── Base button ── */
+    .btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--radius-btn);
+      transition: transform 0.14s ease, opacity 0.14s ease, filter 0.14s ease;
+      opacity: 0;
+      animation: fadeUp 0.38s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:active { transform: scale(0.965); opacity: 0.82; }
+
+    /* ── Red filled (menu) ── */
+    .btn--red {
+      background: var(--red);
+      color: #fff;
+      padding: 15px 20px;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn--red:hover { background: var(--red-dark); }
+
+    .btn--red .btn-icon-wrap {
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Outlined (social / delivery) ── */
+    .btn--outline {
+      background: #fff;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      padding: 10px 16px 10px 10px;
+      gap: 13px;
+    }
+    .btn--outline:hover { border-color: #d0d0d0; background: #fafafa; }
+
+    .btn--outline .btn-label { flex: 1; line-height: 1.3; }
+    .btn--outline .btn-sub {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .btn--outline .btn-arrow {
+      flex-shrink: 0;
+      color: #c8c8c8;
+    }
+
+    /* ── Icon container ── */
+    .btn-icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-icon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .btn-icon-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-icon-wrap svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+
+    /* icon bg colours */
+    .ic-ig    { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%); }
+    .ic-fb    { background: #1877f2; }
+    .ic-yex   { background: #fc3f1d; }
+    .ic-uzum  { background: #00c2e8; padding: 0; }
+    .ic-web   { background: var(--red); }
+    .ic-tel   { background: #16a34a; }
+
+    /* ── Arrow icon ── */
+    .arrow-icon {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #c8c8c8;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     /* ── Branches ── */
     .branches-title {
       width: 100%;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--red);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       text-align: center;
       opacity: 0;
-      animation: fadeUp 0.4s ease forwards 0.55s;
+      animation: fadeUp 0.4s ease forwards 0.56s;
     }
 
-    .branch-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    .branch-list { width: 100%; }
 
     .branch-item {
       display: flex;
@@ -204,53 +211,26 @@
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
       text-align: center;
+      gap: 7px;
       opacity: 0;
-      animation: fadeUp 0.4s ease forwards;
+      animation: fadeUp 0.38s ease forwards;
     }
-
     .branch-item:last-child { border-bottom: none; }
 
     .branch-addr {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 5px;
-    }
-
-    .branch-pin { color: var(--red); font-size: 15px; }
-
-    .branch-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .branch-phone {
-      display: flex;
-      align-items: center;
-      gap: 5px;
       font-size: 13.5px;
       font-weight: 500;
-      color: var(--red);
-      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    .branch-phone:hover { text-decoration: underline; }
-
-    .branch-map {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 4px 10px;
-      border-radius: 20px;
+    .branch-pin {
+      width: 16px;
+      height: 16px;
+      fill: var(--red);
+      flex-shrink: 0;
     }
-
-    .branch-map:hover { background: #f5f5f5; }
 
     .branch-badge {
       font-size: 10px;
@@ -259,13 +239,53 @@
       background: var(--red);
       padding: 2px 7px;
       border-radius: 20px;
-      margin-left: 6px;
-      vertical-align: middle;
     }
+
+    .branch-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .branch-phone {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .branch-phone svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--red);
+      flex-shrink: 0;
+    }
+    .branch-phone:hover { text-decoration: underline; }
+
+    .branch-map {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 4px 11px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .branch-map svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--muted);
+    }
+    .branch-map:hover { background: #f5f5f5; }
 
     /* ── Footer ── */
     .footer {
-      margin-top: 24px;
+      margin-top: 28px;
       font-size: 11px;
       color: #ccc;
       text-align: center;
@@ -277,20 +297,16 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* stagger delays */
-    .links .btn-link:nth-child(1) { animation-delay: 0.10s; }
-    .links .btn-link:nth-child(2) { animation-delay: 0.17s; }
-    .links .btn-link:nth-child(3) { animation-delay: 0.24s; }
-    .links .btn-link:nth-child(4) { animation-delay: 0.31s; }
-    .links .btn-link:nth-child(5) { animation-delay: 0.38s; }
+    .links:nth-of-type(1) .btn:nth-child(1) { animation-delay: 0.10s; }
+    .links:nth-of-type(1) .btn:nth-child(2) { animation-delay: 0.17s; }
 
-    .links-social .btn-link:nth-child(1) { animation-delay: 0.45s; }
-    .links-social .btn-link:nth-child(2) { animation-delay: 0.52s; }
+    .links:nth-of-type(2) .btn:nth-child(1) { animation-delay: 0.24s; }
+    .links:nth-of-type(2) .btn:nth-child(2) { animation-delay: 0.31s; }
 
-    .links-delivery .btn-link:nth-child(1) { animation-delay: 0.58s; }
-    .links-delivery .btn-link:nth-child(2) { animation-delay: 0.65s; }
+    .links:nth-of-type(3) .btn:nth-child(1) { animation-delay: 0.38s; }
+    .links:nth-of-type(3) .btn:nth-child(2) { animation-delay: 0.45s; }
 
-    .links-other .btn-link:nth-child(1) { animation-delay: 0.70s; }
+    .links:nth-of-type(4) .btn:nth-child(1) { animation-delay: 0.52s; }
 
     .branch-item:nth-child(1) { animation-delay: 0.62s; }
     .branch-item:nth-child(2) { animation-delay: 0.69s; }
@@ -301,152 +317,182 @@
 <body>
 <div class="page">
 
-  <!-- ── Logo ── -->
+  <!-- Logo -->
   <div class="logo-wrap">
     <img src="Assets/logo-full.png" alt="Caffee'issimo" />
   </div>
 
-  <!-- ── Menu buttons (first, like on screenshot) ── -->
+  <!-- ── MENU (first) ── -->
   <div class="links">
-    <a class="btn-link btn-link--red" href="#" target="_blank" rel="noopener">
-      <span class="btn-icon">📋</span>
+    <a class="btn btn--red" href="menu-breakfast.html">
+      <span class="btn-icon-wrap">
+        <!-- book / menu icon -->
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
       Основное меню
     </a>
-    <a class="btn-link btn-link--red" href="#" target="_blank" rel="noopener">
-      <span class="btn-icon">🌅</span>
+    <a class="btn btn--red" href="menu-breakfast.html">
+      <span class="btn-icon-wrap">
+        <!-- sunrise / breakfast icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M4.93 4.93l1.41 1.41M2 12h2M20 12h2M17.66 6.34l1.41-1.41M12 8a4 4 0 0 1 0 8M3 20h18"/></svg>
+      </span>
       Меню завтраков
     </a>
   </div>
 
   <div class="divider"></div>
 
-  <!-- ── Social ── -->
+  <!-- ── SOCIAL ── -->
   <p class="section-label">Соцсети</p>
-  <div class="links links-social">
+  <div class="links">
 
-    <a class="btn-link btn-link--outline"
-       href="https://www.instagram.com/caffeeissimo/"
-       target="_blank" rel="noopener">
-      <span class="btn-icon icon-ig">
+    <a class="btn btn--outline" href="https://www.instagram.com/caffeeissimo/" target="_blank" rel="noopener">
+      <span class="btn-icon-wrap ic-ig">
         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
       </span>
-      <span class="btn-label">Instagram — @caffeeissimo</span>
-      <span class="btn-arrow">›</span>
+      <span class="btn-label">
+        Instagram
+        <span class="btn-sub">@caffeeissimo</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
 
-    <a class="btn-link btn-link--outline"
-       href="https://www.facebook.com/CaffeeIssimo/?locale=ru_RU"
-       target="_blank" rel="noopener">
-      <span class="btn-icon icon-fb">
+    <a class="btn btn--outline" href="https://www.facebook.com/CaffeeIssimo/?locale=ru_RU" target="_blank" rel="noopener">
+      <span class="btn-icon-wrap ic-fb">
         <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
       </span>
-      <span class="btn-label">Facebook — Caffee Issimo</span>
-      <span class="btn-arrow">›</span>
+      <span class="btn-label">
+        Facebook
+        <span class="btn-sub">Caffee Issimo</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
 
   </div>
 
-  <!-- ── Delivery ── -->
+  <!-- ── DELIVERY ── -->
   <p class="section-label">Доставка</p>
-  <div class="links links-delivery">
+  <div class="links">
 
-    <a class="btn-link btn-link--outline"
-       href="https://eats.yandex.com/uz/r/caffee_issimo?placeSlug=issimo"
-       target="_blank" rel="noopener">
-      <span class="btn-icon icon-yex">
-        <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9 1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+    <a class="btn btn--outline" href="https://eats.yandex.com/uz/r/caffee_issimo?placeSlug=issimo" target="_blank" rel="noopener">
+      <span class="btn-icon-wrap ic-yex" style="padding:0;">
+        <!-- Yandex Eats logo: fork + spoon on red -->
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="42" height="42" rx="12" fill="#FC3F1D"/>
+          <path d="M14 10v7a3 3 0 0 0 2 2.83V32h2V19.83A3 3 0 0 0 20 17v-7h-2v5h-2v-5h-2z" fill="#fff"/>
+          <path d="M27 10c-2.21 0-4 2.46-4 5.5 0 2.6 1.3 4.77 3 5.35V32h2V20.85c1.7-.58 3-2.75 3-5.35C31 12.46 29.21 10 27 10z" fill="#fff"/>
+        </svg>
       </span>
-      <span class="btn-label">Yandex Eats</span>
-      <span class="btn-arrow">›</span>
+      <span class="btn-label">
+        Yandex Eats
+        <span class="btn-sub">Заказать доставку</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
 
-    <a class="btn-link btn-link--outline"
-       href="https://uzumtezkor.uz/uz/restaurants/729b0536-db62-496b-9d4d-2d5b4593ad7b"
-       target="_blank" rel="noopener">
-      <span class="btn-icon icon-uzum">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    <a class="btn btn--outline" href="https://uzumtezkor.uz/uz/restaurants/729b0536-db62-496b-9d4d-2d5b4593ad7b" target="_blank" rel="noopener">
+      <span class="btn-icon-wrap ic-uzum" style="padding:0;">
+        <img src="Assets/tezkor-logo.png" alt="Uzum Tezkor" />
       </span>
-      <span class="btn-label">Uzum Tezkor</span>
-      <span class="btn-arrow">›</span>
+      <span class="btn-label">
+        Uzum Tezkor
+        <span class="btn-sub">Заказать доставку</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
 
   </div>
 
-  <!-- ── Website ── -->
-  <div class="links links-other">
-    <a class="btn-link btn-link--outline" href="index.html" target="_blank" rel="noopener">
-      <span class="btn-icon icon-web">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+  <!-- ── WEBSITE ── -->
+  <p class="section-label">О нас</p>
+  <div class="links">
+    <a class="btn btn--outline" href="index.html" target="_blank" rel="noopener">
+      <span class="btn-icon-wrap ic-web">
+        <!-- globe -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
       </span>
-      <span class="btn-label">Наш сайт</span>
-      <span class="btn-arrow">›</span>
+      <span class="btn-label">
+        Наш сайт
+        <span class="btn-sub">caffeeissimo.uz</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
   </div>
 
   <div class="divider"></div>
 
-  <!-- ── Branches ── -->
-  <p class="branches-title">Наши филиалы:</p>
+  <!-- ── BRANCHES ── -->
+  <p class="branches-title">Наши филиалы</p>
   <div class="branch-list">
 
     <div class="branch-item">
       <p class="branch-addr">
-        <span class="branch-pin">📍</span>
+        <svg class="branch-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Юнусабадский р-он, 4 квартал, д.84
       </p>
-      <div class="branch-row">
+      <div class="branch-actions">
         <a class="branch-phone" href="tel:+998951194444">
-          📞 +998 95 119 44 44
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +998 95 119 44 44
         </a>
-        <a class="branch-map"
-           href="https://maps.app.goo.gl/CfTkwwuQ9xp4nCio8"
-           target="_blank" rel="noopener">на карте</a>
+        <a class="branch-map" href="https://maps.app.goo.gl/CfTkwwuQ9xp4nCio8" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          На карте
+        </a>
       </div>
     </div>
 
     <div class="branch-item">
       <p class="branch-addr">
-        <span class="branch-pin">📍</span>
-        Проспект Амира Темура, 95А
-        <span class="branch-badge">24/7</span>
+        <svg class="branch-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Проспект Амира Темура, 95А&nbsp;<span class="branch-badge">24/7</span>
       </p>
-      <div class="branch-row">
+      <div class="branch-actions">
         <a class="branch-phone" href="tel:+998712050152">
-          📞 +998 71 205 01 52
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +998 71 205 01 52
         </a>
-        <a class="branch-map"
-           href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent"
-           target="_blank" rel="noopener">на карте</a>
+        <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=Amir+Temur+95A+Tashkent" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          На карте
+        </a>
       </div>
     </div>
 
     <div class="branch-item">
       <p class="branch-addr">
-        <span class="branch-pin">📍</span>
+        <svg class="branch-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Алмазарский р-он, ул. Талабалар, 52
       </p>
-      <div class="branch-row">
+      <div class="branch-actions">
         <a class="branch-phone" href="tel:+998712076300">
-          📞 +998 71 207 63 00
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +998 71 207 63 00
         </a>
-        <a class="branch-map"
-           href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent"
-           target="_blank" rel="noopener">на карте</a>
+        <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=Talabalar+52+Tashkent" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          На карте
+        </a>
       </div>
     </div>
 
     <div class="branch-item">
       <p class="branch-addr">
-        <span class="branch-pin">📍</span>
+        <svg class="branch-pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Мирабадский р-он, л. Саракуль, 32/2
       </p>
-      <div class="branch-row">
+      <div class="branch-actions">
         <a class="branch-phone" href="tel:+998712094900">
-          📞 +998 71 209 49 00
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +998 71 209 49 00
         </a>
-        <a class="branch-map"
-           href="https://www.google.com/maps/search/?api=1&query=Sarakul+32+Mirobod+Tashkent"
-           target="_blank" rel="noopener">на карте</a>
+        <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=Sarakul+32+Mirobod+Tashkent" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          На карте
+        </a>
       </div>
     </div>
 
