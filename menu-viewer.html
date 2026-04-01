@@ -6,361 +6,178 @@
   <title>Меню — Caffee'issimo</title>
   <link rel="icon" href="Assets/logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --red: #AB0B0B; --red-dark: #8f0909; }
+    :root { --red: #AB0B0B; }
 
     html, body {
-      height: 100%; background: #f2f2f2;
+      height: 100%;
       font-family: 'Inter', sans-serif;
+      background: #1a1a1a;
       overscroll-behavior: none;
     }
 
-    /* ══ LOADING OVERLAY ══════════════════════════════════════════ */
-    #overlay {
-      position: fixed; inset: 0; z-index: 999;
-      background: #fff;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 24px; padding: 40px 32px;
-      transition: opacity 0.4s ease;
-    }
-    #overlay.hide { opacity: 0; pointer-events: none; }
-
-    .ov-logo { width: 140px; height: auto; }
-
-    .ov-title {
-      font-size: 16px; font-weight: 700; color: #1a1a1a;
-      text-align: center;
-    }
-
-    .ov-bar-wrap {
-      width: 100%; max-width: 240px;
-      height: 4px; background: #eee; border-radius: 4px;
-      overflow: hidden;
-    }
-    .ov-bar {
-      height: 100%; width: 0%;
-      background: var(--red);
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-
-    .ov-status {
-      font-size: 13px; color: #999; font-weight: 500;
-    }
-
-    /* ══ TOP BAR ══════════════════════════════════════════════════ */
+    /* ── Top bar ── */
     .topbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: #fff; border-bottom: 1px solid #e8e8e8;
       display: flex; align-items: center;
-      padding: env(safe-area-inset-top,0) 16px 0;
-      height: calc(56px + env(safe-area-inset-top,0));
+      padding: env(safe-area-inset-top, 0) 16px 0;
+      height: calc(52px + env(safe-area-inset-top, 0));
       gap: 8px;
     }
 
     .topbar-back {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 14px; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 700;
       color: var(--red); text-decoration: none;
-      padding: 10px 4px 10px 0; white-space: nowrap;
+      padding: 10px 8px 10px 0; white-space: nowrap; flex-shrink: 0;
     }
     .topbar-back svg {
-      width: 20px; height: 20px;
-      fill: none; stroke: var(--red);
-      stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+      width: 20px; height: 20px; flex-shrink: 0;
+      fill: none; stroke: var(--red); stroke-width: 2.2;
+      stroke-linecap: round; stroke-linejoin: round;
     }
 
     .topbar-title {
-      flex: 1; text-align: center;
-      font-size: 15px; font-weight: 700;
+      flex: 1; text-align: center; font-size: 15px; font-weight: 700;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .topbar-spacer { width: 60px; } /* balance back button */
+    .topbar-right { width: 72px; flex-shrink: 0; } /* balance */
 
-    /* ══ VIEWER ═══════════════════════════════════════════════════ */
+    /* ── Scroll area ── */
     #viewer {
       position: fixed;
-      top: calc(56px + env(safe-area-inset-top,0));
+      top: calc(52px + env(safe-area-inset-top, 0));
       bottom: 0; left: 0; right: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      display: flex; flex-direction: column;
-      align-items: center;
-      padding: 14px 8px calc(24px + env(safe-area-inset-bottom,0));
-      gap: 10px;
-      visibility: hidden; /* shown after preload */
-    }
-    #viewer.visible { visibility: visible; }
-
-    /* ══ PAGE SLOTS ═══════════════════════════════════════════════ */
-    .page-slot {
-      width: 100%; max-width: 700px;
-      background: #e8e8e8;
-      border-radius: 4px;
-      overflow: hidden;
-      flex-shrink: 0;
+      background: #1a1a1a;
     }
 
-    /* Spinner inside placeholder */
-    .page-slot.loading {
-      display: flex; align-items: center; justify-content: center;
-    }
-    .slot-spinner {
-      width: 26px; height: 26px;
-      border: 3px solid #ddd;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+    /* ── Page images ── */
+    .menu-page {
+      display: block;
+      width: 100%;
+      height: auto;
+      /* Show skeleton while loading */
+      background: #2a2a2a;
     }
 
-    /* Canvas: hidden until swap */
-    .page-slot canvas {
-      display: block; width: 100%; height: auto;
-      opacity: 0; transition: opacity 0.25s ease;
-    }
-    .page-slot.ready canvas { opacity: 1; }
+    .menu-page.loaded { background: none; }
 
-    /* ══ PAGE COUNTER ═════════════════════════════════════════════ */
+    /* gap between pages */
+    .menu-page + .menu-page { margin-top: 4px; }
+
+    /* ── Page counter badge ── */
     #counter {
       position: fixed;
-      bottom: calc(14px + env(safe-area-inset-bottom,0));
+      bottom: calc(14px + env(safe-area-inset-bottom, 0));
       left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.5); color: #fff;
-      font-size: 12px; font-weight: 600;
+      background: rgba(0,0,0,0.55);
+      color: #fff; font-size: 12px; font-weight: 600;
       padding: 5px 14px; border-radius: 20px;
       pointer-events: none; white-space: nowrap;
-      opacity: 0; transition: opacity 0.25s;
+      opacity: 0; transition: opacity 0.2s;
     }
     #counter.on { opacity: 1; }
 
-    /* ══ ERROR ════════════════════════════════════════════════════ */
+    /* ── Error ── */
     #error-box {
       display: none; flex-direction: column;
-      align-items: center; gap: 14px;
-      padding: 60px 24px; text-align: center; width: 100%;
+      align-items: center; justify-content: center;
+      gap: 16px; padding: 80px 24px; text-align: center;
+      min-height: 300px; color: #888;
     }
-    #error-box svg { width: 44px; height: 44px; fill: #ddd; }
-    #error-box p { font-size: 14px; color: #999; }
+    #error-box svg { width: 44px; height: 44px; fill: #555; }
+    #error-box p { font-size: 14px; }
     #error-box a {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--red); color: #fff;
-      font-size: 14px; font-weight: 600;
-      padding: 12px 24px; border-radius: 50px;
+      display: inline-block; background: var(--red); color: #fff;
+      font-size: 14px; font-weight: 700;
+      padding: 12px 28px; border-radius: 50px;
       text-decoration: none;
     }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-<!-- ── Loading overlay ─────────────────────────────────────── -->
-<div id="overlay">
-  <img class="ov-logo" src="Assets/logo-full.png" alt="Caffee'issimo" />
-  <p class="ov-title" id="ov-title">Основное меню</p>
-  <div class="ov-bar-wrap"><div class="ov-bar" id="ov-bar"></div></div>
-  <p class="ov-status" id="ov-status">Загрузка…</p>
-</div>
-
-<!-- ── Top bar ─────────────────────────────────────────────── -->
 <header class="topbar">
   <a class="topbar-back" href="taplink.html">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     Назад
   </a>
   <span class="topbar-title" id="page-title">Меню</span>
-  <span class="topbar-spacer"></span>
+  <span class="topbar-right"></span>
 </header>
 
-<!-- ── Viewer ──────────────────────────────────────────────── -->
-<main id="viewer">
-  <div id="error-box">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="16"/><circle cx="12" cy="18" r="1"/></svg>
-    <p>Не удалось загрузить меню</p>
-    <a id="error-dl" href="#">Попробовать снова</a>
-  </div>
-</main>
-
-<!-- ── Counter ──────────────────────────────────────────────── -->
+<div id="viewer"></div>
 <div id="counter"></div>
 
-<script type="module">
-  /* ── Config ─────────────────────────────────────────────────── */
+<script>
+  /* ── Config ──────────────────────────────────────────── */
   const params  = new URLSearchParams(location.search);
   const type    = params.get('type') || 'main';
   const configs = {
-    main:      { title: 'Основное меню',  pdf: 'Assets/menu-main.pdf'      },
-    breakfast: { title: 'Меню завтраков', pdf: 'Assets/menu-breakfast.pdf' },
+    main: {
+      title:  'Основное меню',
+      dir:    'Assets/menu-main',
+      pages:  32,
+    },
+    breakfast: {
+      title:  'Меню завтраков',
+      dir:    'Assets/menu-breakfast',
+      pages:  4,
+    },
   };
   const cfg = configs[type] || configs.main;
 
   document.title = cfg.title + ' — Caffee\'issimo';
   document.getElementById('page-title').textContent = cfg.title;
-  document.getElementById('ov-title').textContent   = cfg.title;
-  document.getElementById('error-dl').onclick = () => location.reload();
 
-  /* ── PDF.js ─────────────────────────────────────────────────── */
-  const { getDocument, GlobalWorkerOptions } = await import(
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs'
-  );
-  GlobalWorkerOptions.workerSrc =
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+  /* ── Build image list ────────────────────────────────── */
+  const viewer  = document.getElementById('viewer');
+  const counter = document.getElementById('counter');
+  const imgs    = [];
 
-  /* ── Elements ───────────────────────────────────────────────── */
-  const viewer   = document.getElementById('viewer');
-  const overlay  = document.getElementById('overlay');
-  const ovBar    = document.getElementById('ov-bar');
-  const ovStatus = document.getElementById('ov-status');
-  const counter  = document.getElementById('counter');
-  const errorBox = document.getElementById('error-box');
-
-  /* Limit DPR to 1.5 — good balance of sharpness vs speed on mobile */
-  const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-
-  /* ── Render queue ───────────────────────────────────────────── */
-  let renderBusy = false;
-  const renderQueue = [];
-
-  function enqueue(slot) {
-    renderQueue.push(slot);
-    if (!renderBusy) drainQueue();
+  for (let i = 0; i < cfg.pages; i++) {
+    const src = `${cfg.dir}/page-${String(i).padStart(2, '0')}.jpg`;
+    const img = document.createElement('img');
+    img.className   = 'menu-page';
+    img.src         = src;
+    img.alt         = `Страница ${i + 1}`;
+    img.decoding    = 'async';
+    /* First 2 pages load eagerly; rest are lazy */
+    img.loading     = i < 2 ? 'eager' : 'lazy';
+    img.dataset.page = i + 1;
+    img.addEventListener('load', () => img.classList.add('loaded'));
+    viewer.appendChild(img);
+    imgs.push(img);
   }
 
-  async function drainQueue() {
-    if (!renderQueue.length) { renderBusy = false; return; }
-    renderBusy = true;
-    const slot = renderQueue.shift();
-    if (!slot.isConnected) { drainQueue(); return; }
-    await renderSlot(slot);
-    drainQueue();
-  }
-
-  /* ── Render one page slot ───────────────────────────────────── */
-  async function renderSlot(slot) {
-    const pageNum = parseInt(slot.dataset.page, 10);
-    const pdf     = slot._pdf;
-    try {
-      const page     = await pdf.getPage(pageNum);
-      const baseVp   = page.getViewport({ scale: 1 });
-      const slotW    = viewer.clientWidth - 16;
-      const scale    = (slotW / baseVp.width) * DPR;
-      const viewport = page.getViewport({ scale });
-
-      /* Render onto offscreen canvas first — no partial display */
-      const canvas        = document.createElement('canvas');
-      canvas.width        = viewport.width;
-      canvas.height       = viewport.height;
-      canvas.style.width  = `${viewport.width  / DPR}px`;
-      canvas.style.height = `${viewport.height / DPR}px`;
-
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-
-      /* Swap placeholder → rendered canvas */
-      slot.innerHTML = '';
-      slot.appendChild(canvas);
-      slot.classList.remove('loading');
-      slot.classList.add('ready');
-      /* Force repaint then fade in */
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => { canvas.style.opacity = '1'; });
-      });
-    } catch {
-      slot.innerHTML = '<div style="padding:16px;text-align:center;color:#bbb;font-size:12px">—</div>';
-      slot.classList.remove('loading');
-    }
-  }
-
-  /* ── Progress overlay helper ────────────────────────────────── */
-  function updateProgress(done, total) {
-    ovBar.style.width = `${Math.round(done / total * 100)}%`;
-    ovStatus.textContent = `Страница ${done} из ${total}…`;
-  }
-
-  /* ── Page counter on scroll ─────────────────────────────────── */
+  /* ── Page counter on scroll ──────────────────────────── */
   let counterTimer = null;
-  function onScroll() {
-    const slots = viewer.querySelectorAll('.page-slot');
-    if (!slots.length) return;
-    const mid = viewer.scrollTop + viewer.clientHeight / 2;
-    let best = slots[0], bestD = Infinity;
-    slots.forEach(s => {
-      const d = Math.abs(s.offsetTop - mid);
-      if (d < bestD) { bestD = d; best = s; }
-    });
-    counter.textContent = `${best.dataset.page} / ${slots.length}`;
-    counter.classList.add('on');
-    clearTimeout(counterTimer);
-    counterTimer = setTimeout(() => counter.classList.remove('on'), 1800);
-  }
-  viewer.addEventListener('scroll', onScroll, { passive: true });
-
-  /* ── IntersectionObserver for lazy pages (6+) ───────────────── */
-  const lazyObserver = new IntersectionObserver(entries => {
+  const io = new IntersectionObserver(entries => {
+    /* Find the most-visible page */
+    let best = null, bestRatio = 0;
     entries.forEach(e => {
-      if (e.isIntersecting && !e.target.classList.contains('ready') &&
-          !e.target.classList.contains('queued')) {
-        e.target.classList.add('queued');
-        enqueue(e.target);
-        lazyObserver.unobserve(e.target);
-      }
+      if (e.intersectionRatio > bestRatio) { bestRatio = e.intersectionRatio; best = e.target; }
     });
-  }, { root: viewer, rootMargin: '300px 0px' });
-
-  /* ── MAIN ───────────────────────────────────────────────────── */
-  try {
-    const pdf        = await getDocument(cfg.pdf).promise;
-    const total      = pdf.numPages;
-    const PRELOAD    = Math.min(5, total);
-
-    /* Estimate placeholder height from page 1 */
-    const firstPage  = await pdf.getPage(1);
-    const firstVp    = firstPage.getViewport({ scale: 1 });
-    const slotW      = viewer.clientWidth - 16;
-    const phHeight   = Math.round(slotW / firstVp.width * firstVp.height);
-
-    /* Build all placeholder slots */
-    const slots = [];
-    for (let i = 1; i <= total; i++) {
-      const slot = document.createElement('div');
-      slot.className    = 'page-slot loading';
-      slot.dataset.page = i;
-      slot._pdf         = pdf;
-      slot.style.height = phHeight + 'px';
-      slot.innerHTML    = '<div class="slot-spinner"></div>';
-      viewer.appendChild(slot);
-      slots.push(slot);
+    if (best) {
+      counter.textContent = `${best.dataset.page} / ${cfg.pages}`;
+      counter.classList.add('on');
+      clearTimeout(counterTimer);
+      counterTimer = setTimeout(() => counter.classList.remove('on'), 1800);
     }
+  }, { root: viewer, threshold: [0.3, 0.6, 1.0] });
 
-    /* ── Phase 1: preload first 5 pages (blocking, with progress) ── */
-    for (let i = 0; i < PRELOAD; i++) {
-      updateProgress(i + 1, PRELOAD);
-      await renderSlot(slots[i]);
-    }
+  imgs.forEach(img => io.observe(img));
 
-    /* Show viewer, hide overlay */
-    viewer.classList.add('visible');
-    overlay.classList.add('hide');
-    setTimeout(() => overlay.remove(), 450);
-
-    /* ── Phase 2: lazy load pages 6+ via IntersectionObserver ──── */
-    for (let i = PRELOAD; i < total; i++) {
-      lazyObserver.observe(slots[i]);
-    }
-
-    counter.textContent = `1 / ${total}`;
-    counter.classList.add('on');
-    setTimeout(() => counter.classList.remove('on'), 2000);
-
-  } catch (err) {
-    console.error(err);
-    overlay.remove();
-    viewer.classList.add('visible');
-    errorBox.style.display = 'flex';
-  }
+  /* Show counter on initial load */
+  counter.textContent = `1 / ${cfg.pages}`;
+  counter.classList.add('on');
+  setTimeout(() => counter.classList.remove('on'), 2000);
 </script>
 
 </body>
