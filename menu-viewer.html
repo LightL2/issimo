@@ -48,14 +48,6 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .topbar-dl {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 13px; font-weight: 600;
-      color: var(--red); text-decoration: none;
-      padding: 10px 0 10px 4px;
-      white-space: nowrap;
-    }
-    .topbar-dl svg { width: 18px; height: 18px; fill: none; stroke: var(--red); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
     /* ── Scroll container ── */
     .viewer {
@@ -164,10 +156,6 @@
     Назад
   </a>
   <span class="topbar-title" id="page-title">Меню</span>
-  <a class="topbar-dl" id="dl-link" href="#" download>
-    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Скачать
-  </a>
 </header>
 
 <main class="viewer" id="viewer">
@@ -199,8 +187,6 @@
 
   document.title        = cfg.title + ' — Caffee\'issimo';
   document.getElementById('page-title').textContent = cfg.title;
-  document.getElementById('dl-link').href     = cfg.pdf;
-  document.getElementById('dl-link').download = cfg.dl;
   document.getElementById('error-dl').href    = cfg.pdf;
   document.getElementById('error-dl').download = cfg.dl;
 
