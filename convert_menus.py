@@ -20,7 +20,7 @@ MENUS = [
 # max width 900px, JPEG quality 85
 DPI      = 300
 MAX_W    = 1800
-QUALITY  = 92
+QUALITY  = 90
 
 def convert(pdf_path, out_dir):
     os.makedirs(out_dir, exist_ok=True)
