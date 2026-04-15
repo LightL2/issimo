@@ -18,9 +18,9 @@ MENUS = [
 
 # 150 DPI → crisp on mobile, reasonable file size
 # max width 900px, JPEG quality 85
-DPI      = 200
-MAX_W    = 1200
-QUALITY  = 88
+DPI      = 300
+MAX_W    = 1800
+QUALITY  = 92
 
 def convert(pdf_path, out_dir):
     os.makedirs(out_dir, exist_ok=True)
