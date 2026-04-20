@@ -48,21 +48,63 @@
 
   <main>
     <section class="hero" id="hero">
-      <div class="hero__overlay"></div>
-      <picture>
-        <source srcset="assets/ban.png" type="image/jpeg" />
-        <img src="assets/ban.png" alt="Интерьер итальянского кафе" class="hero__bg" loading="lazy" />
-      </picture>
-      <div class="container hero__content" data-animate="fade-up">
-        <div class="logo-tile" aria-hidden="true">
-          <img src="assets/logo2.png" alt="" class="logo-tile__image" />
+      <div class="hero-slider" id="heroSlider">
+
+        <!-- ── Слайд 1: основной ── -->
+        <div class="hero-slide active">
+          <div class="hero__overlay"></div>
+          <picture>
+            <source srcset="assets/ban.png" type="image/jpeg" />
+            <img src="assets/ban.png" alt="Интерьер итальянского кафе" class="hero__bg" />
+          </picture>
+          <div class="container hero__content">
+            <div class="logo-tile" aria-hidden="true">
+              <img src="assets/logo2.png" alt="" class="logo-tile__image" />
+            </div>
+            <h1>Частичка Италии <br> в сердце Ташкента</h1>
+            <p>Современная сеть кафе с атмосферой итальянского города, авторскими блюдами и кофейной культурой Illy.</p>
+            <div class="hero__actions">
+              <a class="btn" href="#cuisine">Посмотреть меню</a>
+              <a class="btn btn--ghost" href="#delivery">Заказать доставку</a>
+            </div>
+          </div>
         </div>
-        <h1>Частичка Италии <br> в сердце Ташкента</h1>
-        <p>Современная сеть кафе с атмосферой итальянского города, авторскими блюдами и кофейной культурой Illy.</p>
-        <div class="hero__actions">
-          <a class="btn" href="#cuisine">Посмотреть меню</a>
-          <a class="btn btn--ghost" href="#delivery">Заказать доставку</a>
+
+        <!-- ── Слайд 2: завтраки ── -->
+        <div class="hero-slide">
+          <div class="hero__overlay hero__overlay--breakfast"></div>
+          <img src="assets/breakfast-hero.jpg" alt="Итальянские завтраки Caffee'issimo" class="hero__bg" />
+          <div class="container hero__content">
+            <span class="hero-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              Итальянские завтраки в Caffee'issimo
+            </span>
+            <h1 class="hero-breakfast__title">
+              Лёгкое начало дня<br>
+              <em>со вкусом и атмосферой</em>
+            </h1>
+            <div class="breakfast-time">
+              <svg class="breakfast-time__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <div class="breakfast-time__text">
+                <span class="breakfast-time__label">Ежедневно</span>
+                <strong class="breakfast-time__hours">4:00 <span>—</span> 12:00</strong>
+              </div>
+            </div>
+            <div class="hero__actions">
+              <a class="btn btn--white" href="menu-viewer.html?type=breakfast">Меню завтраков</a>
+              <a class="btn btn--ghost" href="#delivery">Заказать доставку</a>
+            </div>
+          </div>
         </div>
+
+        <!-- ── Навигационные точки ── -->
+        <div class="slider-dots">
+          <button class="slider-dot active" data-slide="0" aria-label="Слайд 1"></button>
+          <button class="slider-dot" data-slide="1" aria-label="Слайд 2"></button>
+        </div>
+
       </div>
     </section>
 

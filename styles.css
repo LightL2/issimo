@@ -127,6 +127,161 @@ a:hover {
   align-items: center;
   color: var(--white);
   margin-top: 76px;
+  overflow: hidden;
+}
+
+/* ── Hero slider ───────────────────────────────────────── */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  min-height: 90vh;
+  display: grid;
+  align-items: center;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+/* ── Breakfast overlay (lighter on right to show food) ── */
+.hero__overlay--breakfast {
+  background: linear-gradient(105deg,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.52) 45%,
+    rgba(0,0,0,0.12) 100%
+  );
+}
+
+/* ── Eyebrow for slides ──────────────────────────────── */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+  margin-bottom: 18px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 8px 14px;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Breakfast slide title ───────────────────────────── */
+.hero-breakfast__title {
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+
+.hero-breakfast__title em {
+  font-style: normal;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.78em;
+  font-weight: 400;
+}
+
+/* ── Time badge ──────────────────────────────────────── */
+.breakfast-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 14px;
+  margin-bottom: 28px;
+}
+
+.breakfast-time__icon {
+  width: 28px;
+  height: 28px;
+  color: rgba(255,255,255,0.75);
+  flex-shrink: 0;
+}
+
+.breakfast-time__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.breakfast-time__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+
+.breakfast-time__hours {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #fff;
+  line-height: 1;
+}
+
+.breakfast-time__hours span {
+  color: rgba(255,255,255,0.5);
+  font-weight: 400;
+  margin: 0 4px;
+}
+
+/* ── White button variant ────────────────────────────── */
+.btn--white {
+  background: #fff;
+  color: var(--brand);
+  border-color: #fff;
+}
+
+.btn--white:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.9);
+}
+
+/* ── Slider dots ─────────────────────────────────────── */
+.slider-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, width 0.3s ease;
+}
+
+.slider-dot.active {
+  background: #fff;
+  width: 24px;
+  border-radius: 4px;
 }
 
 .hero__bg {

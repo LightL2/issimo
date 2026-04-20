@@ -1,3 +1,55 @@
+/* ── Hero slider ─────────────────────────────────────────── */
+(function () {
+  const slider  = document.getElementById('heroSlider');
+  if (!slider) return;
+
+  const slides  = slider.querySelectorAll('.hero-slide');
+  const dots    = slider.querySelectorAll('.slider-dot');
+  let current   = 0;
+  let timer     = null;
+  const DELAY   = 6000; // 6 s per slide
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  function next() { goTo(current + 1); }
+
+  function startAuto() { timer = setInterval(next, DELAY); }
+  function stopAuto()  { clearInterval(timer); }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      stopAuto();
+      goTo(parseInt(dot.dataset.slide, 10));
+      startAuto();
+    });
+  });
+
+  /* Pause on hover */
+  slider.addEventListener('mouseenter', stopAuto);
+  slider.addEventListener('mouseleave', startAuto);
+
+  /* Touch swipe */
+  let touchX = 0;
+  slider.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  slider.addEventListener('touchend', e => {
+    const diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      stopAuto();
+      goTo(diff > 0 ? current + 1 : current - 1);
+      startAuto();
+    }
+  }, { passive: true });
+
+  startAuto();
+})();
+
+/* ── Nav ──────────────────────────────────────────────────── */
 const navToggle = document.querySelector('.nav__toggle');
 const navList = document.getElementById('nav-list');
 
