@@ -117,88 +117,95 @@ const instagramProfile = 'https://www.instagram.com/caffeeissimo/';
 const instagramProxy =
   'https://r.jina.ai/http://www.instagram.com/api/v1/users/web_profile_info/?username=caffeeissimo';
 
-const menuGalleryTrack = document.querySelector('.menu-gallery__track');
-const menuGalleryDots = document.querySelector('.menu-gallery__dots');
-const prevControl = document.querySelector('.menu-gallery__control--prev');
-const nextControl = document.querySelector('.menu-gallery__control--next');
-const menuSlides = menuGalleryTrack ? Array.from(menuGalleryTrack.children) : [];
+/* ── Gallery carousel ─────────────────────────────────── */
+(function () {
+  const track    = document.getElementById('galleryTrack');
+  if (!track) return;
 
-let menuSlideIndex = 0;
-let menuSlideTimer;
+  const viewport = document.getElementById('galleryViewport');
+  const prevBtn  = document.getElementById('galleryPrev');
+  const nextBtn  = document.getElementById('galleryNext');
+  const fill     = document.getElementById('galleryFill');
+  const countEl  = document.getElementById('galleryCount');
+  const filterBtns = document.querySelectorAll('.gallery-filter');
 
-const updateMenuDots = () => {
-  if (!menuDots.length) return;
-  menuDots.forEach((dot, index) => {
-    const isActive = index === menuSlideIndex;
-    dot.setAttribute('aria-selected', String(isActive));
-    dot.classList.toggle('is-active', isActive);
-  });
-};
+  /* Master list of all slide nodes (never changes) */
+  const allSlides = Array.from(track.children);
 
-const setMenuSlide = (index, userInitiated = false) => {
-  if (!menuSlides.length || !menuGalleryTrack) return;
-  menuSlideIndex = (index + menuSlides.length) % menuSlides.length;
-  menuGalleryTrack.style.transform = `translateX(-${menuSlideIndex * 100}%)`;
-  menuSlides.forEach((slide, i) => slide.classList.toggle('is-active', i === menuSlideIndex));
-  updateMenuDots();
-  if (userInitiated) restartMenuAutoplay();
-};
+  let visible = [...allSlides]; // currently displayed slides
+  let idx = 0;
+  let autoTimer = null;
 
-const setupMenuDots = () => {
-  if (!menuGalleryDots || !menuSlides.length) return [];
-  menuGalleryDots.innerHTML = '';
-  return menuSlides.map((_, index) => {
-    const dot = document.createElement('button');
-    dot.className = 'menu-gallery__dot';
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Кадр ${index + 1}`);
-    dot.addEventListener('click', () => setMenuSlide(index, true));
-    menuGalleryDots.appendChild(dot);
-    return dot;
-  });
-};
+  /* ── Update UI ─────────────────────────────────────── */
+  function update() {
+    const total = visible.length;
+    if (!total) return;
+    idx = ((idx % total) + total) % total;
 
-const menuDots = setupMenuDots();
+    track.style.transform = `translateX(-${idx * 100}%)`;
 
-const nextMenuSlide = () => setMenuSlide(menuSlideIndex + 1);
-const prevMenuSlide = () => setMenuSlide(menuSlideIndex - 1);
-
-const stopMenuAutoplay = () => {
-  if (menuSlideTimer) {
-    clearInterval(menuSlideTimer);
-    menuSlideTimer = undefined;
+    if (fill)    fill.style.width   = `${((idx + 1) / total) * 100}%`;
+    if (countEl) countEl.textContent = `${idx + 1} / ${total}`;
   }
-};
 
-const startMenuAutoplay = () => {
-  if (prefersReduceMotion.matches || !menuSlides.length) return;
-  stopMenuAutoplay();
-  menuSlideTimer = setInterval(nextMenuSlide, 6500);
-};
+  /* ── Filter ────────────────────────────────────────── */
+  function applyFilter(category) {
+    /* Detach all from DOM */
+    allSlides.forEach(s => s.remove());
 
-const restartMenuAutoplay = () => {
-  stopMenuAutoplay();
-  startMenuAutoplay();
-};
+    /* Attach only matching */
+    const matching = category === 'all'
+      ? allSlides
+      : allSlides.filter(s => s.dataset.category === category);
 
-if (menuSlides.length) {
-  setMenuSlide(0);
-  startMenuAutoplay();
-}
+    matching.forEach(s => track.appendChild(s));
+    visible = matching;
+    idx = 0;
+    update();
+    restartAuto();
+  }
 
-if (nextControl) {
-  nextControl.addEventListener('click', () => {
-    nextMenuSlide();
-    restartMenuAutoplay();
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.filter);
+    });
   });
-}
 
-if (prevControl) {
-  prevControl.addEventListener('click', () => {
-    prevMenuSlide();
-    restartMenuAutoplay();
-  });
-}
+  /* ── Navigation ────────────────────────────────────── */
+  function go(delta) { idx += delta; update(); restartAuto(); }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => go(+1));
+
+  /* ── Autoplay ──────────────────────────────────────── */
+  function startAuto() {
+    if (prefersReduceMotion.matches) return;
+    autoTimer = setInterval(() => { idx++; update(); }, 5000);
+  }
+  function stopAuto()    { clearInterval(autoTimer); }
+  function restartAuto() { stopAuto(); startAuto(); }
+
+  if (viewport) {
+    viewport.addEventListener('mouseenter', stopAuto);
+    viewport.addEventListener('mouseleave', startAuto);
+  }
+
+  /* ── Touch swipe ───────────────────────────────────── */
+  let touchX = 0;
+  if (viewport) {
+    viewport.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+    viewport.addEventListener('touchend', e => {
+      const d = touchX - e.changedTouches[0].clientX;
+      if (Math.abs(d) > 40) go(d > 0 ? 1 : -1);
+    }, { passive: true });
+  }
+
+  /* ── Init ──────────────────────────────────────────── */
+  update();
+  startAuto();
+})();
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
