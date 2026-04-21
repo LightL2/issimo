@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /Assets/menu-main.pdf
+Disallow: /Assets/menu-breakfast.pdf
+Disallow: /seo_patch.py
+Disallow: /convert_menus.py
+
+# Sitemaps
+Sitemap: https://issimo.uz/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
