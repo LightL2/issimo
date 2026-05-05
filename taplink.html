@@ -187,6 +187,38 @@
     .ic-uzum  { background: #00c2e8; padding: 0; }
     .ic-web   { background: var(--red); }
     .ic-tel   { background: #16a34a; }
+    .ic-gift  { background: linear-gradient(135deg, #b8710a 0%, #f5c318 100%); }
+
+    /* Gift certificate button — warm gold accent */
+    .btn--gift-cert {
+      background: linear-gradient(135deg, #fffbee 0%, #fff8db 100%);
+      border-color: #f0c040;
+      position: relative;
+      overflow: visible;
+    }
+    .btn--gift-cert:hover {
+      border-color: #d4a800;
+      background: linear-gradient(135deg, #fff8db 0%, #fef0b0 100%);
+    }
+    .btn--gift-cert .btn-label { color: #5a3a00; }
+    .btn--gift-cert .btn-sub   { color: #a07030; }
+    .btn--gift-cert .arrow-icon { stroke: #e0b030; }
+
+    .gift-badge {
+      position: absolute;
+      top: -9px;
+      right: 18px;
+      background: #e67e00;
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(230,126,0,0.4);
+    }
 
     /* ── Arrow icon ── */
     .arrow-icon {
@@ -316,11 +348,12 @@
     .links:nth-of-type(3) .btn:nth-child(2) { animation-delay: 0.45s; }
 
     .links:nth-of-type(4) .btn:nth-child(1) { animation-delay: 0.52s; }
+    .links:nth-of-type(5) .btn:nth-child(1) { animation-delay: 0.59s; }
 
-    .branch-item:nth-child(1) { animation-delay: 0.62s; }
-    .branch-item:nth-child(2) { animation-delay: 0.69s; }
-    .branch-item:nth-child(3) { animation-delay: 0.76s; }
-    .branch-item:nth-child(4) { animation-delay: 0.83s; }
+    .branch-item:nth-child(1) { animation-delay: 0.68s; }
+    .branch-item:nth-child(2) { animation-delay: 0.75s; }
+    .branch-item:nth-child(3) { animation-delay: 0.82s; }
+    .branch-item:nth-child(4) { animation-delay: 0.89s; }
   </style>
 </head>
 <body>
@@ -408,6 +441,22 @@
       <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
 
+  </div>
+
+  <!-- ── GIFT CERTIFICATE ── -->
+  <p class="section-label">Подарки</p>
+  <div class="links">
+    <a class="btn btn--outline btn--gift-cert" href="https://buchet.uz/ru/shop/698c575f7213080d6a595c7b" target="_blank" rel="noopener">
+      <span class="gift-badge">Купить онлайн</span>
+      <span class="btn-icon-wrap ic-gift">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="btn-label">
+        Подарочный сертификат
+        <span class="btn-sub">Подарите вкус Италии · Оплата онлайн</span>
+      </span>
+      <svg class="arrow-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
   </div>
 
   <!-- ── WEBSITE ── -->
