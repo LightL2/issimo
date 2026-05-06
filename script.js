@@ -1,13 +1,22 @@
 /* ── Hero slider ─────────────────────────────────────────── */
 (function () {
-  const slider  = document.getElementById('heroSlider');
+  const slider   = document.getElementById('heroSlider');
   if (!slider) return;
 
-  const slides  = slider.querySelectorAll('.hero-slide');
-  const dots    = slider.querySelectorAll('.slider-dot');
-  let current   = 0;
-  let timer     = null;
-  const DELAY   = 6000; // 6 s per slide
+  const slides   = slider.querySelectorAll('.hero-slide');
+  const dots     = slider.querySelectorAll('.slider-dot');
+  const counter  = document.getElementById('heroCurrentSlide');
+  const progress = document.getElementById('heroProgressFill');
+  let current    = 0;
+  let timer      = null;
+  const DELAY    = 6000;
+
+  function restartProgress() {
+    if (!progress) return;
+    progress.classList.remove('running');
+    void progress.offsetWidth; // force reflow to restart animation
+    progress.classList.add('running');
+  }
 
   function goTo(idx) {
     slides[current].classList.remove('active');
@@ -15,6 +24,8 @@
     current = (idx + slides.length) % slides.length;
     slides[current].classList.add('active');
     dots[current].classList.add('active');
+    if (counter) counter.textContent = String(current + 1).padStart(2, '0');
+    restartProgress();
   }
 
   function next() { goTo(current + 1); }
@@ -24,11 +35,15 @@
 
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
-      stopAuto();
-      goTo(parseInt(dot.dataset.slide, 10));
-      startAuto();
+      stopAuto(); goTo(parseInt(dot.dataset.slide, 10)); startAuto();
     });
   });
+
+  /* Side arrows */
+  const btnPrev = document.getElementById('heroPrev');
+  const btnNext = document.getElementById('heroNext');
+  if (btnPrev) btnPrev.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+  if (btnNext) btnNext.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
 
   /* Pause on hover */
   slider.addEventListener('mouseenter', stopAuto);
@@ -40,12 +55,11 @@
   slider.addEventListener('touchend', e => {
     const diff = touchX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
-      stopAuto();
-      goTo(diff > 0 ? current + 1 : current - 1);
-      startAuto();
+      stopAuto(); goTo(diff > 0 ? current + 1 : current - 1); startAuto();
     }
   }, { passive: true });
 
+  restartProgress();
   startAuto();
 })();
 

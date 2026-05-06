@@ -200,13 +200,14 @@
             <img src="assets/ban.png" alt="Интерьер итальянского кафе" class="hero__bg" />
           </picture>
           <div class="container hero__content">
-            <div class="logo-tile" aria-hidden="true">
-              <img src="assets/logo2.png" alt="" class="logo-tile__image" />
-            </div>
-            <h1>Частичка Италии <br> в сердце Ташкента</h1>
-            <p>Современная сеть кафе с атмосферой итальянского города, авторскими блюдами и кофейной культурой Illy.</p>
+            <span class="hero-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Итальянское кафе · Ташкент
+            </span>
+            <h1>Частичка Италии<br><em>в сердце Ташкента</em></h1>
+            <p>Атмосфера итальянского города, авторские блюда и кофейная культура Illy — в трёх адресах Ташкента.</p>
             <div class="hero__actions">
-              <a class="btn" href="#cuisine">Посмотреть меню</a>
+              <a class="btn btn--white" href="#cuisine">Посмотреть меню</a>
               <a class="btn btn--ghost" href="#delivery">Заказать доставку</a>
             </div>
           </div>
@@ -241,10 +242,26 @@
           </div>
         </div>
 
-        <!-- ── Навигационные точки ── -->
-        <div class="slider-dots">
-          <button class="slider-dot active" data-slide="0" aria-label="Слайд 1"></button>
-          <button class="slider-dot" data-slide="1" aria-label="Слайд 2"></button>
+        <!-- ── Боковые стрелки ── -->
+        <button class="hero-side-arrow hero-side-arrow--prev" id="heroPrev" aria-label="Предыдущий слайд">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="hero-side-arrow hero-side-arrow--next" id="heroNext" aria-label="Следующий слайд">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <!-- ── Нижняя панель ── -->
+        <div class="hero-bottom-bar">
+          <span class="hero-slide-counter">
+            <strong id="heroCurrentSlide">01</strong>&thinsp;/ 02
+          </span>
+          <div class="slider-dots">
+            <button class="slider-dot active" data-slide="0" aria-label="Слайд 1"></button>
+            <button class="slider-dot" data-slide="1" aria-label="Слайд 2"></button>
+          </div>
+          <div class="hero-progress-bar">
+            <div class="hero-progress-fill running" id="heroProgressFill"></div>
+          </div>
         </div>
 
       </div>

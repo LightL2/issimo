@@ -122,9 +122,9 @@ a:hover {
 
 .hero {
   position: relative;
-  min-height: 90vh;
-  display: grid;
-  align-items: center;
+  height: 100svh;
+  min-height: 580px;
+  max-height: 920px;
   color: var(--white);
   margin-top: 76px;
   overflow: hidden;
@@ -134,24 +134,22 @@ a:hover {
 .hero-slider {
   position: relative;
   width: 100%;
-  min-height: 90vh;
-  display: grid;
-  align-items: center;
+  height: 100%;
 }
 
 .hero-slide {
   position: absolute;
   inset: 0;
-  display: grid;
+  display: flex;
   align-items: center;
   opacity: 0;
-  transition: opacity 0.9s ease;
+  transition: opacity 0.85s ease;
   pointer-events: none;
 }
 
+/* KEY FIX: never position:relative — height controlled by .hero */
 .hero-slide.active {
   opacity: 1;
-  position: relative;
   pointer-events: auto;
 }
 
@@ -182,18 +180,21 @@ a:hover {
   backdrop-filter: blur(8px);
 }
 
-/* ── Breakfast slide title ───────────────────────────── */
+/* ── Slide titles — unified size ─────────────────────── */
 .hero-breakfast__title {
-  font-size: clamp(30px, 4.5vw, 52px);
-  line-height: 1.15;
-  margin-bottom: 28px;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.1;
+  font-weight: 800;
+  margin-bottom: 24px;
 }
 
-.hero-breakfast__title em {
+.hero-breakfast__title em,
+.hero h1 em {
   font-style: normal;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.78em;
+  color: rgba(255,255,255,0.62);
   font-weight: 400;
+  display: block;
+  font-size: 0.78em;
 }
 
 /* ── Time badge ──────────────────────────────────────── */
@@ -256,32 +257,115 @@ a:hover {
   border-color: rgba(255,255,255,0.9);
 }
 
-/* ── Slider dots ─────────────────────────────────────── */
-.slider-dots {
+/* ── Hero bottom bar ─────────────────────────────────── */
+.hero-bottom-bar {
   position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 clamp(20px, 4vw, 48px) 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hero-slide-counter {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  min-width: 44px;
+  flex-shrink: 0;
+}
+.hero-slide-counter strong {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ── Dots ─────────────────────────────────────── */
+.slider-dots {
   display: flex;
   gap: 8px;
-  z-index: 10;
 }
 
 .slider-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.38);
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: background 0.3s ease, width 0.3s ease;
+  transition: background 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
 }
 
 .slider-dot.active {
   background: #fff;
-  width: 24px;
+  width: 28px;
   border-radius: 4px;
+}
+
+/* ── Progress bar ───────────────────────────── */
+.hero-progress-bar {
+  width: 80px;
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hero-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255,255,255,0.9);
+  border-radius: 2px;
+}
+.hero-progress-fill.running {
+  animation: heroProgress 6s linear forwards;
+}
+
+@keyframes heroProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Side arrows ────────────────────────────── */
+.hero-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.22);
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.hero-side-arrow:hover {
+  background: rgba(255,255,255,0.28);
+  transform: translateY(-50%) scale(1.08);
+}
+.hero-side-arrow--prev { left: 24px; }
+.hero-side-arrow--next { right: 24px; }
+.hero-side-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .hero__bg {
@@ -304,27 +388,9 @@ a:hover {
   position: relative;
   z-index: 2;
   max-width: 700px;
-  padding: 120px 0 120px;
+  padding: 80px 0 70px;
 }
 
-.logo-tile {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 12px 14px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  margin-bottom: 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-}
-
-.logo-tile__image {
-  height: 72px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
 
 h1,
 h2,
@@ -1267,9 +1333,8 @@ p {
     width: 100%;
   }
 
-  .hero__content {
-    padding: 100px 0 120px;
-  }
+  .hero-side-arrow { display: none; }
+  .hero__content { padding: 64px 0 60px; }
 
   .menu-card img {
     height: clamp(360px, 68vw, 420px);
@@ -1287,9 +1352,8 @@ p {
     padding: 12px 0;
   }
 
-  .hero {
-    min-height: 82vh;
-  }
+  .hero-bottom-bar { padding-bottom: 22px; }
+  .hero-progress-bar { width: 56px; }
 
   .card img {
     height: 180px;
