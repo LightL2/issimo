@@ -181,6 +181,58 @@ a:hover {
   );
 }
 
+/* ── Gelato overlay (readable text, fresh warm tone) ── */
+.hero__overlay--gelato {
+  background: linear-gradient(105deg,
+    rgba(0,0,0,0.70) 0%,
+    rgba(0,0,0,0.48) 45%,
+    rgba(0,0,0,0.14) 100%
+  );
+}
+
+/* ── Generic hero badge (used by gelato slide) ── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 14px;
+  margin-bottom: 28px;
+}
+
+.hero-badge__icon {
+  width: 26px;
+  height: 26px;
+  color: rgba(255,255,255,0.8);
+  flex-shrink: 0;
+}
+
+.hero-badge__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.hero-badge__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+
+.hero-badge__value {
+  font-size: clamp(16px, 2.4vw, 20px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #fff;
+  line-height: 1.1;
+}
+
 /* ── Eyebrow for slides ──────────────────────────────── */
 .hero-eyebrow {
   display: inline-flex;
