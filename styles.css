@@ -181,12 +181,12 @@ a:hover {
   );
 }
 
-/* ── Gelato overlay (readable text, fresh warm tone) ── */
-.hero__overlay--gelato {
+/* ── Coffee overlay (warm depth, lets crema tones show) ── */
+.hero__overlay--coffee {
   background: linear-gradient(105deg,
-    rgba(0,0,0,0.70) 0%,
-    rgba(0,0,0,0.48) 45%,
-    rgba(0,0,0,0.14) 100%
+    rgba(20,12,8,0.78) 0%,
+    rgba(20,12,8,0.55) 42%,
+    rgba(20,12,8,0.18) 100%
   );
 }
 
